@@ -11,27 +11,20 @@ class App extends React.Component {
     }
   }
 
-  kasvataPalautetta = (tyyppi) => {
-    return () => {
-      console.log(tyyppi)
-      this.setState({ [tyyppi]: this.state[tyyppi] + 1 })
-    }
-  }
+  kasvataPalautetta = (tyyppi) => () => this.setState({ [tyyppi]: this.state[tyyppi] + 1 })
 
   render() {
     return (
       <div>
-        <Otsikko teksti='Anna palautetta'/>
+        <div><Otsikko teksti='Anna palautetta'/></div>
         <div>
-          <Nappi teksti='hyvä' onClick={this.kasvataPalautetta('good')} />
-          <Nappi teksti='neutraali' onClick={this.kasvataPalautetta('neutral')} />
-          <Nappi teksti='huono' onClick={this.kasvataPalautetta('bad')} />
+          <Button teksti='hyvä' onClick={this.kasvataPalautetta('good')} />
+          <Button teksti='neutraali' onClick={this.kasvataPalautetta('neutral')} />
+          <Button teksti='huono' onClick={this.kasvataPalautetta('bad')} />
         </div>
         <div>
           <Otsikko teksti='Statistiikkaa: ' />
-          <Tulokset kentta={this.state.good} teksti='Hyvä: ' />
-          <Tulokset kentta={this.state.neutral} teksti='Neutraali: ' />
-          <Tulokset kentta={this.state.bad} teksti='Huono: ' />
+          <Statistics data={this.state} />
         </div>
       </div>
     )
@@ -40,20 +33,62 @@ class App extends React.Component {
 
 const Otsikko = ({ teksti }) => <h1>{teksti}</h1>
 
-const Nappi = (props) => {
+const Button = (props) => (
+      <button type='button' onClick={props.onClick}>{props.teksti}</button>
+)
+
+
+const Statistics = ({ data }) => {
+  //console.log(neutral)
+  if ( data.good || data.neutral || data.bad !== 0 ) {
+    return (
+      <div>
+        <div>
+          <table>
+            <tbody>
+              <tr>
+                <td>Hyvä:</td>
+                <td>{data.good}</td>
+              </tr>
+              <tr>
+                <td>Neutraali: </td>
+                <td>{data.neutral}</td>
+              </tr>
+              <tr>
+                <td>Huono: </td>
+                <td>{data.bad} </td>
+              </tr>
+                <Statistic data={data} type='average' />
+                <Statistic data={data} type='positivity' />
+            </tbody>
+          </table>
+        </div>
+      </div>
+    )
+  }
   return (
     <div>
-      <button type='button' onClick={props.onClick}>{props.teksti}</button>
+      Ei yhtään palautetta annettu :´(
     </div>
   )
 }
 
-const Tulokset = ({ kentta, teksti }) => {
+const Statistic = ({ data: {good, neutral, bad}, type}) => {
+  if (type === 'average') {
+    return (
+      <tr>
+        <td>Keskiarvo:</td>
+        <td>{(good + neutral + bad) / 3} </td>
+      </tr>
+    )
+  }
   return (
-    <div>{teksti} {kentta}</div>
+    <tr>
+      <td>Positiivisia: </td>
+      <td>{((good / (neutral + bad + good)) * 100)}</td>
+    </tr>
   )
 }
-
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
