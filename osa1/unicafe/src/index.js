@@ -85,7 +85,7 @@ const Statistic = ({ data: {good, neutral, bad}, type}) => {
   return (
     <tr>
       <td>Positiivisia: </td>
-      <td>{((good / (neutral + bad + good)) * 100)}</td>
+      <td>{((good / (neutral + bad + good)) * 100)} % </td>
     </tr>
   )
 }
