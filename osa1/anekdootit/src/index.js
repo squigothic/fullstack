@@ -6,13 +6,19 @@ class App extends React.Component {
     super(props)
     this.state = {
       selected: 0,
-      votes: [0,0,0,0,0,0]
+      votes: [
+        {ind: 0, count: 0},
+        {ind: 1, count: 0},
+        {ind: 2, count: 0},
+        {ind: 3, count: 0},
+        {ind: 4, count: 0},
+        {ind: 5, count: 0},
+      ]
     }
   }
 
   arvoAnekdootti = () => {
     return () => {
-      console.log('anekdoootti arvottu')
       const randomNumber = this.getRandomInt(anecdotes.length-1)
       this.setState({ selected: randomNumber })
     }
@@ -20,12 +26,9 @@ class App extends React.Component {
 
   lisaaAani = () => {
     return () => {
-      console.log('lisaa aani kutsuttu')
       const tempArray = [...this.state.votes]
-      tempArray[[this.state.selected]] += 1
+      tempArray[this.state.selected].count += 1
       this.setState({ votes: tempArray })
-
-
     }
   }
 
@@ -57,16 +60,32 @@ const Button = ({ onClick, text }) => {
 const Title = ({ text, anecdotes }) => <h2>{text}</h2>
 
 const Statistic = ({ votesArray }) => {
-  const mostVotes = Math.max(...votesArray)
-  const indeksi = votesArray.indexOf(mostVotes)
+  const biggestNumber = Math.max(...votesArray.map(x => x.count))
+  const anecdotesWithMostVotes = votesArray.filter(x => x.count === biggestNumber)
+  if(biggestNumber === 0) {
+    return (
+      <div>
+      No votes given yet
+      </div>
+    )
+  }
   return (
     <div>
-      {anecdotes[indeksi]}
+      <AnecdoteList list={anecdotesWithMostVotes} />
       <br></br>
-      has {mostVotes} votes
+      has {biggestNumber} votes
     </div>
   )
 }
+
+const AnecdoteList = ({ list }) => {
+  return (
+    <>
+      {list.map(anekdooti => <div key={anekdooti.ind}>{anecdotes[anekdooti.ind]}</div>)}
+    </>  
+  )
+ }
+
 
 const anecdotes = [
   'If it hurts, do it more often',
