@@ -1,5 +1,5 @@
 import React from 'react';
-import Person from './components/Person'
+import AllPersons from './components/AllPersons'
 import Filter from './components/Filter'
 
 class App extends React.Component {
@@ -73,7 +73,7 @@ class App extends React.Component {
           </div>
         </form>
         <h2>Numerot</h2>
-        <Person personList={this.state.persons} filter={this.state.filter}/>
+        <AllPersons personList={this.state.persons} filter={this.state.filter}/>
       </div>
     )
   }
