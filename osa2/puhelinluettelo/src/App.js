@@ -1,13 +1,20 @@
 import React from 'react';
 import Person from './components/Person'
+import Filter from './components/Filter'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      persons: [],
+      persons: [
+        { name: 'Arto Hellas', number: '040-123456' },
+        { name: 'Martti Tienari', number: '040-123456' },
+        { name: 'Arto Järvinen', number: '040-123456' },
+        { name: 'Lea Kutvonen', number: '040-123456' }
+      ],
       newName: 'syötä nimi...',
-      newNumber: 'syötä numero...'
+      newNumber: 'syötä numero...',
+      filter:'',
     }
   }
 
@@ -16,12 +23,15 @@ class App extends React.Component {
   }
 
   handleNewNumber = (event) => {
-    console.log(event.target.value)
     this.setState({ newNumber: event.target.value })
   }
 
+  handleFilter = (event) => {
+    console.log(event.target.value)
+    this.setState({ filter: event.target.value})
+  }
+
   addPerson = (event) => {
-    console.log(event.target)
     event.preventDefault()
     const personObject = {
       name: this.state.newName,
@@ -43,6 +53,8 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+        <Filter filter={this.state.filter} handleFilter={this.handleFilter} />
+        <h3>Lisää uusi: </h3>
         <form onSubmit={this.addPerson}>
           <div>
             nimi:
@@ -61,7 +73,7 @@ class App extends React.Component {
           </div>
         </form>
         <h2>Numerot</h2>
-        <Person personList={this.state.persons}/>
+        <Person personList={this.state.persons} filter={this.state.filter}/>
       </div>
     )
   }
