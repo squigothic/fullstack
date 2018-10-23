@@ -1,9 +1,13 @@
 import React from 'react';
 import DisplayCountry from './DisplayCountry';
 
-const AllCountries = ({ countryList, filter }) => {
+const AllCountries = ({ countryList, filter, handleClick }) => {
   const countriesToDisplay = countryList
     .filter(country => country.name.toLowerCase().includes(filter.toLowerCase()))
+
+  const handleFilterChange = (newFilter) => {
+    handleClick(newFilter)
+  }
 
   if(countriesToDisplay.length === 1 && filter !== '') {
     console.log(countriesToDisplay)
@@ -20,12 +24,18 @@ const AllCountries = ({ countryList, filter }) => {
       </div>
     )
   } else {
-    console.log('maita oli alle kymmenen mutta yli yksi')
+    console.log('maita oli alle kymmenen mutta yli yksi tai taulukko oli tyhjä')
     return (
       <div>
           {countriesToDisplay
-            .map(country => <p key={country.alpha3Code}>{country.name}</p>)
+            .map(country => 
+            <div 
+              key={country.alpha3Code} 
+              onClick={handleClick(country.name)}>
+              {country.name}
+            </div>)
           }
+          
       </div>
     )
   } 

@@ -26,13 +26,19 @@ class App extends Component {
     this.setState({ filter: event.target.value})
   }
 
+  setFilter = (newFilter) => {
+    return () => {
+      this.setState({ filter: newFilter})
+    }
+  }
+
   render() {
     return (
       <div>
         <h1>Maa-ohjelma</h1>
         <Filter filter={this.state.filter} handleFilter={this.handleFilter} />
         <div>
-          <AllCountries countryList={this.state.maat} filter={this.state.filter} />
+          <AllCountries countryList={this.state.maat} filter={this.state.filter} handleClick={this.setFilter} />
         </div>
       </div>
     )
