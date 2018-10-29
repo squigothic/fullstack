@@ -1,7 +1,7 @@
 import React from 'react';
 import Person from './Person'
 
-const AllPersons = ({ personList, filter }) => {
+const AllPersons = ({ personList, filter, deletePerson }) => {
   if (personList.length === 0) {
     return 'Ei henkilöitä listalla'
   }
@@ -11,7 +11,12 @@ const AllPersons = ({ personList, filter }) => {
   return (
     <div>
         {personsToDisplay
-          .map(person => <Person key={person.name} person={person} />)
+          .map(person => 
+            <Person 
+              key={person.name} 
+              person={person} 
+              deletePerson={deletePerson(person.id)}
+            />)
         }
     </div>
   )   

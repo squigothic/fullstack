@@ -1,7 +1,6 @@
 import React from 'react';
 import AllPersons from './components/AllPersons'
 import Filter from './components/Filter'
-import axios from 'axios'
 import personService from './services/persons'
 
 class App extends React.Component {
@@ -19,7 +18,9 @@ class App extends React.Component {
     personService
       .getAll()
       .then(response => {
-        this.setState({ notes: response })
+        console.log('haettiin henkilöitä vitusti')
+        console.log(response)
+        this.setState({ persons: response })
       })
   }
 
@@ -60,6 +61,18 @@ class App extends React.Component {
     }
   }
 
+  deletePerson = (id) => {
+    return () => {
+      console.log(`pyritään deletoimaan ${id} henkilö`)
+      personService
+        .deletePerson(id)
+        .then(response => {
+          this.setState({ persons: this.state.persons.filter(person => person.id !== id)})
+        })
+    }
+  }
+
+
   render() {
     return (
       <div>
@@ -84,7 +97,11 @@ class App extends React.Component {
           </div>
         </form>
         <h2>Numerot</h2>
-        <AllPersons personList={this.state.persons} filter={this.state.filter}/>
+        <AllPersons 
+          personList={this.state.persons} 
+          filter={this.state.filter} 
+          deletePerson={this.deletePerson}
+        />
       </div>
     )
   }
