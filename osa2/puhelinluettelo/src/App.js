@@ -8,7 +8,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       persons: [],
-      newName: 'syötä nimi...',
+      newName: 'syötä person....',
       newNumber: 'syötä numero...',
       filter:'',
     }
@@ -64,11 +64,16 @@ class App extends React.Component {
   deletePerson = (id) => {
     return () => {
       console.log(`pyritään deletoimaan ${id} henkilö`)
-      personService
-        .deletePerson(id)
-        .then(response => {
-          this.setState({ persons: this.state.persons.filter(person => person.id !== id)})
-        })
+      const person = this.state.persons.find(person => person.id === id)
+      const result = window.confirm(`Haluatko varmasti poistaa henkilön ${person.name}?`)
+      console.log(result)
+      if(result) {
+        personService
+          .deletePerson(id)
+          .then(response => {
+            this.setState({ persons: this.state.persons.filter(person => person.id !== id)})
+        })  
+      }
     }
   }
 
@@ -81,7 +86,7 @@ class App extends React.Component {
         <h3>Lisää uusi: </h3>
         <form onSubmit={this.addPerson}>
           <div>
-            nimi:
+            person.:
             <input 
               value={this.state.newName} 
               onChange={this.handleNewName}
