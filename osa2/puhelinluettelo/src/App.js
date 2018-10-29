@@ -2,6 +2,7 @@ import React from 'react';
 import AllPersons from './components/AllPersons'
 import Filter from './components/Filter'
 import axios from 'axios'
+import personService from './services/persons'
 
 class App extends React.Component {
   constructor(props) {
@@ -15,13 +16,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios
-      .get('http://localhost:3001/persons')
+    personService
+      .getAll()
       .then(response => {
-        console.log(response.data)
-        this.setState({ persons: response.data })
+        this.setState({ notes: response })
       })
-
   }
 
   handleNewName = (event) => {
@@ -49,10 +48,16 @@ class App extends React.Component {
       console.log('eipä lisättykään')
     } else {
       console.log('ei muka löytynyt duplikaatteja...')
-      const persons = this.state.persons.concat(personObject)
-      this.setState({ persons })
+      personService
+        .create(personObject)
+        .then(response => {
+          this.setState({
+            persons: this.state.persons.concat(response),
+            newName: '',
+            newNumber: '',
+          })
+        })
     }
-    this.setState({ newName: ''})
   }
 
   render() {
