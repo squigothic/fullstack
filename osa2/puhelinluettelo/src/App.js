@@ -46,7 +46,15 @@ class App extends React.Component {
     const addedNames = this.state.persons.map(person => person.name)
 
     if (addedNames.includes(personObject.name)) {
-      console.log('eipä lisättykään')
+      const result = window.confirm(`${personObject.name} on jo luettelossa, korvataanko vanha numero uudella?`)
+      if(result) {
+        const person  = this.state.persons.find(person => person.name === personObject.name)
+        personService
+        .update(person.id, personObject)
+        .then(response => {
+          this.setState({ persons: this.state.persons.map(person => person.name !== personObject.name ? person : response)})
+        })
+      }
     } else {
       console.log('ei muka löytynyt duplikaatteja...')
       personService

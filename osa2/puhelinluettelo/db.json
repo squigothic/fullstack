@@ -2,7 +2,7 @@
   "persons": [
     {
       "name": "Arto Hellas",
-      "number": "040-123456",
+      "number": "4864684684",
       "id": 1
     },
     {
@@ -12,13 +12,18 @@
     },
     {
       "name": "Arto Järvinen",
-      "number": "040-123456",
+      "number": "0000",
       "id": 3
     },
     {
       "name": "Lea Kutvonen",
-      "number": "040-123456",
+      "number": "789456",
       "id": 4
+    },
+    {
+      "name": "Sami Kuusela",
+      "number": "112",
+      "id": 6
     }
   ]
 }
