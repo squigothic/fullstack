@@ -56,6 +56,18 @@ class App extends React.Component {
         .then(response => {
           this.setState({ persons: this.state.persons.map(person => person.name !== personObject.name ? person : response)})
         })
+        .catch(error => {
+          personService
+            .create(personObject)
+            .then(response => {
+              this.setState({
+              persons: this.state.persons.map(person => person.name !== personObject.name ? person : response),
+              newName: '',
+              newNumber: '',
+              })
+            })
+        })
+        this.showNotification(`muutettu numero henkilölle ${person.name}`)
       }
     } else {
       console.log('ei muka löytynyt duplikaatteja...')
@@ -94,7 +106,8 @@ class App extends React.Component {
           .deletePerson(id)
           .then(response => {
             this.setState({ persons: this.state.persons.filter(person => person.id !== id)})
-        })  
+        })
+        this.showNotification(`${person.name} poistettu tietokannasta`)
       }
     }
   }
