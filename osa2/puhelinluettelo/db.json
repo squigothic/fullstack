@@ -24,6 +24,16 @@
       "name": "Sami Kuusela",
       "number": "112",
       "id": 6
+    },
+    {
+      "name": "jarkko mattila",
+      "number": "789456123",
+      "id": 7
+    },
+    {
+      "name": "mikko makkonen",
+      "number": "456123",
+      "id": 8
     }
   ]
 }

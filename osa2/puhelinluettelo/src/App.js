@@ -2,15 +2,18 @@ import React from 'react';
 import AllPersons from './components/AllPersons'
 import Filter from './components/Filter'
 import personService from './services/persons'
+import Notification from './components/Notification'
+import './index.css'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       persons: [],
-      newName: 'syötä person....',
+      newName: 'syötä nimi....',
       newNumber: 'syötä numero...',
       filter:'',
+      notificationMessage: null,
     }
   }
 
@@ -18,7 +21,6 @@ class App extends React.Component {
     personService
       .getAll()
       .then(response => {
-        console.log('haettiin henkilöitä vitusti')
         console.log(response)
         this.setState({ persons: response })
       })
@@ -65,8 +67,20 @@ class App extends React.Component {
             newName: '',
             newNumber: '',
           })
+          this.showNotification(`${personObject.name} lisätty tietokantaan`)
         })
     }
+  }
+
+  showNotification = (text) => {
+    this.setState({
+      notificationMessage: text
+    })
+    setTimeout(() => {
+      this.setState({
+        notificationMessage: null
+      })
+    }, 4000)
   }
 
   deletePerson = (id) => {
@@ -90,6 +104,7 @@ class App extends React.Component {
     return (
       <div>
         <h2>Puhelinluettelo</h2>
+        <Notification message={this.state.notificationMessage}/>
         <Filter filter={this.state.filter} handleFilter={this.handleFilter} />
         <h3>Lisää uusi: </h3>
         <form onSubmit={this.addPerson}>
