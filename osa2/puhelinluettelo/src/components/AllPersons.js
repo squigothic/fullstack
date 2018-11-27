@@ -13,7 +13,7 @@ const AllPersons = ({ personList, filter, deletePerson }) => {
         {personsToDisplay
           .map(person => 
             <Person 
-              key={person.name} 
+              key={person.id} 
               person={person} 
               deletePerson={deletePerson(person.id)}
             />)
