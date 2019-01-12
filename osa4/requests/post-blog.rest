@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs/
 content-type: application/json
 
 {
-	"title": "Semiuusi blogi",
-	"author": "Kaketsu",
+	"title": "Kikkeliskokkelis",
+	"author": "make",
 	"url": "penanblogi.fi", 
-	"likes": 3
+	"likes": 12
 }
