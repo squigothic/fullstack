@@ -28,30 +28,32 @@ const favoriteBlog = (blogs) => {
 const mostBlogs = (blogs) => {
 
   const mostProductive = 0
-  const result = []
+  let result = []
 
+  const uniqueWriters = [...new Set(blogs.map( b => b.author))]
   // käydään läpi koko lista ja etsitään montako blogia kirjoittajalla on
-  blogs.forEach( blog => {
-    const author = blog.author
-    console.log('Kirjoittaja: ', author)
+
+  uniqueWriters.forEach( author => {
     //suodatetaan listaa ja tallennetaan kirjoittajan blogien määrä muuttujaan
     const numberOfBlogs = blogs.filter( singleBlog => singleBlog.author === author).length
-    console.log('Kirjoittajan blogien lukumäärä: ', numberOfBlogs)
+
     // katsotaan onko käsiteltävä kirjoittaja tuotteliaampi kuin aiempi johtaja
     if (numberOfBlogs > mostProductive) {
-      console.log('Tuottavampi kuin verrokki: true')
       //jos on, tarkistetaan ettei kirjoittajaa jo ole listalla
-      console.log('Resultin sisältö ennen tarkistus: ', result)
-      if (result.filter( oldBlog => oldBlog.author === author).length === 0) {
-        console.log('Ei vielä löydy listalle, lisätään')
-        const productiveAuthor = {
-          author: blog.author,
+      result = [
+        {
+          author: author,
           blogs: numberOfBlogs
         }
-        console.log('Lisätään listalle: ', productiveAuthor)
-        result.push(productiveAuthor)
-        console.log('Resultin sisälön pushin jälkeen: ', result)
+      ]
+
+
+    } else if (numberOfBlogs === mostProductive) {
+      const newWriter = {
+        author,
+        blogs: numberOfBlogs
       }
+      result.push(newWriter)
     }
 
   })

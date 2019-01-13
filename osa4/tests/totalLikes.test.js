@@ -119,7 +119,11 @@ describe('Most liked and productive authors', () => {
 
   test('When multiple blogs, should return all authors with most blogs', () => {
     const result = [
-
+      {
+        author: 'Robert C. Martin',
+        blogs: 3
+      }
     ]
+    expect(listHelper.mostBlogs(multipleBlogs)).toEqual(result)
   })
 })
