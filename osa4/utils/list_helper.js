@@ -39,7 +39,6 @@ const mostBlogs = (blogs) => {
 
     // katsotaan onko käsiteltävä kirjoittaja tuotteliaampi kuin aiempi johtaja
     if (numberOfBlogs > mostProductive) {
-      //jos on, tarkistetaan ettei kirjoittajaa jo ole listalla
       result = [
         {
           author: author,
@@ -62,21 +61,29 @@ const mostBlogs = (blogs) => {
 }
 
 const mostLikes = (blogs) => {
-  const favoriteAuthor = favoriteBlog(blogs)
-  if (favoriteAuthor.length === 1) {
-    const mostLiked = favoriteAuthor[0].author
-    const allByFavorite = blogs.filter(blog => blog.author === mostLiked)
-    const sumOfLikes = allByFavorite.reduce( (sum, blog) => sum + blog.likes, 0)
-    const result = [
-      {
-        author: mostLiked,
+  const uniqueWriters = [...new Set(blogs.map( b => b.author))]
+  const mostLiked = 0
+  let result = []
+
+  uniqueWriters.forEach( writer => {
+    const blogsByWriter = blogs.filter( blog => blog.author === writer)
+    const sumOfLikes = blogsByWriter.reduce( (sum, blog) => sum + blog.likes, 0)
+    if (sumOfLikes > mostLiked) {
+      result = [
+        {
+          author: writer,
+          likes: sumOfLikes
+        }
+      ]
+    } else if (sumOfLikes === mostLiked) {
+      const newWriter = {
+        author: writer,
         likes: sumOfLikes
       }
-    ]
-    return result
-  }
-  console.log('Tulos: ', favoriteAuthor)
-  return favoriteAuthor
+      result.push(newWriter)
+    }
+  })
+  return result
 }
 
 module.exports = {

@@ -139,11 +139,11 @@ describe('Most liked authors', () => {
     expect(listHelper.mostLikes(listWithOneBlog)).toEqual(result)
   })
 
-  test('When list has multiple blgos, should return author with most likes combined', () => {
+  test('When list has multiple blogs, should return author with most likes combined', () => {
     const result = [
       {
         author: 'Robert C. Martin',
-        blogs: 24
+        likes: 24
       }
     ]
     expect(listHelper.mostLikes(multipleBlogs)).toEqual(result)
