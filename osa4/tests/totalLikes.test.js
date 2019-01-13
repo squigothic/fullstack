@@ -62,9 +62,13 @@ const multipleBlogs = [
   }
 ]
 
-
+const emptyBlog = []
 
 describe('total likes', () => {
+  test('When list empy, should return zero as number of likes', () => {
+    expect(listHelper.totalLikes(emptyBlog)).toBe(0)
+  })
+
   test('When list has only one blog the result should equal the likes of that', () => {
     expect(listHelper.totalLikes(listWithOneBlog)).toBe(7)
   })
@@ -77,6 +81,11 @@ describe('total likes', () => {
 
 
 describe('the blog(s) with most likes', () => {
+
+  test('When list empty should return empty array', () => {
+    expect(listHelper.favoriteBlog(emptyBlog)).toEqual([])
+  })
+
   test('When list has only one blog, that blog should be returned', () => {
     const result = [
       {
@@ -107,6 +116,11 @@ describe('the blog(s) with most likes', () => {
 })
 
 describe('Most productive authors', () => {
+
+  test('When list empty, should return empty array', () => {
+    expect(listHelper.mostBlogs(emptyBlog)).toEqual([])
+  })
+
   test('When list has only one blog, that blog shoudl be returned', () => {
     const result = [
       {
@@ -129,6 +143,11 @@ describe('Most productive authors', () => {
 })
 
 describe('Most liked authors', () => {
+  test('When list empty, should return empty array', () => {
+    expect(listHelper.mostLikes(emptyBlog)).toEqual([])
+  })
+
+
   test('When list has only one blog, that blog shoudl be returned', () => {
     const result = [
       {
