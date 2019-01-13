@@ -61,9 +61,28 @@ const mostBlogs = (blogs) => {
   return result
 }
 
+const mostLikes = (blogs) => {
+  const favoriteAuthor = favoriteBlog(blogs)
+  if (favoriteAuthor.length === 1) {
+    const mostLiked = favoriteAuthor[0].author
+    const allByFavorite = blogs.filter(blog => blog.author === mostLiked)
+    const sumOfLikes = allByFavorite.reduce( (sum, blog) => sum + blog.likes, 0)
+    const result = [
+      {
+        author: mostLiked,
+        likes: sumOfLikes
+      }
+    ]
+    return result
+  }
+  console.log('Tulos: ', favoriteAuthor)
+  return favoriteAuthor
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
