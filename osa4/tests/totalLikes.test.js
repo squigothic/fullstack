@@ -49,7 +49,7 @@ const multipleBlogs = [
     title: 'TDD harms architecture',
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-    likes: 0,
+    likes: 12,
     __v: 0
   },
   {
@@ -70,9 +70,38 @@ describe('total likes', () => {
   })
 
   test('When list has multiple blogs, sum of likes should be returned', () => {
-    expect(listHelper.totalLikes(multipleBlogs)).toBe(36)
+    expect(listHelper.totalLikes(multipleBlogs)).toBe(48)
   })
 
 })
 
 
+describe('the blog(s) with most likes', () => {
+  test('When list has only one blog, that blog should be returned', () => {
+    const result = [
+      {
+        title: 'React patterns',
+        author: 'Michael Chan',
+        likes: 7
+      }
+    ]
+    expect(listHelper.favoriteBlog(listWithOneBlog)).toEqual(result)
+  })
+
+  test('When multiple blogs, should return all with most likes ', () => {
+    const result = [
+      {
+        title: 'Canonical string reduction',
+        author: 'Edsger W. Dijkstra',
+        likes: 12
+      },
+      {
+        author: 'Robert C. Martin',
+        likes: 12,
+        title: 'TDD harms architecture'
+      }
+    ]
+    expect(listHelper.favoriteBlog(multipleBlogs)).toEqual(result)
+  })
+
+})
