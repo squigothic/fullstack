@@ -105,3 +105,21 @@ describe('the blog(s) with most likes', () => {
   })
 
 })
+
+describe('Most liked and productive authors', () => {
+  test('When list has only one blog, that blog shoudl be returned', () => {
+    const result = [
+      {
+        author: 'Michael Chan',
+        blogs: 1
+      }
+    ]
+    expect(listHelper.mostBlogs(listWithOneBlog)).toEqual(result)
+  })
+
+  test('When multiple blogs, should return all authors with most blogs', () => {
+    const result = [
+
+    ]
+  })
+})
