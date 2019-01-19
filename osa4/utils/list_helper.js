@@ -1,6 +1,7 @@
 // käytetty aika noin 7 tuntia tehtävät 4.3-4.7 ??
 
 const dummy = (blogs) => {
+  console.log(blogs)
   return 1
 }
 

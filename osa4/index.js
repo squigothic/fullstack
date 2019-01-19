@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const blogsRouter = require('./controllers/blogs')
+const config = require('./utils/config')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -15,14 +16,16 @@ app.use(bodyParser.json())
 
 app.use('/api/blogs', blogsRouter)
 
-const mongoUrl = process.env.DB_HOST
 mongoose
-  .connect(mongoUrl, { useNewUrlParser: true })
+  .connect(config.mongoUrl, { useNewUrlParser: true })
   .then( () => {
-    console.log('Connected to databse: ', process.env.DB_HOST)
+    console.log('Connected to databse: ', config.mongoUrl)
+  })
+  .catch( err => {
+    console.log(err)
   })
 
-const PORT = 3003
+const PORT = config.port
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
