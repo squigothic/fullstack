@@ -93,7 +93,8 @@ describe('tests for blogs api', () => {
   test('it blog has no likes defined, 0 is added', async () => {
     const newBlog = {
       title: 'Keskimaan Mattikoulun villit vuodet',
-      author: 'Masa'
+      author: 'Masa',
+      url: 'mattikoulu.net'
     }
 
     const resultOfPost = await api
@@ -103,6 +104,18 @@ describe('tests for blogs api', () => {
       .expect('Content-Type', /application\/json/)
 
     expect(resultOfPost.body.likes).toBe(0)
+  })
+
+  test('blog without title and url will be respondes with 400 bad request', async () => {
+    const newBlog = {
+      author: 'unknown',
+      likes: 200
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
   })
 
 
