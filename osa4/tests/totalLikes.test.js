@@ -64,107 +64,109 @@ const multipleBlogs = [
 
 const emptyBlog = []
 
-describe('total likes', () => {
-  test('When list empy, should return zero as number of likes', () => {
-    expect(listHelper.totalLikes(emptyBlog)).toBe(0)
-  })
+describe.skip('list helpers', () => {
+  describe('total likes', () => {
+    test('When list empy, should return zero as number of likes', () => {
+      expect(listHelper.totalLikes(emptyBlog)).toBe(0)
+    })
 
-  test('When list has only one blog the result should equal the likes of that', () => {
-    expect(listHelper.totalLikes(listWithOneBlog)).toBe(7)
-  })
+    test('When list has only one blog the result should equal the likes of that', () => {
+      expect(listHelper.totalLikes(listWithOneBlog)).toBe(7)
+    })
 
-  test('When list has multiple blogs, sum of likes should be returned', () => {
-    expect(listHelper.totalLikes(multipleBlogs)).toBe(48)
-  })
+    test('When list has multiple blogs, sum of likes should be returned', () => {
+      expect(listHelper.totalLikes(multipleBlogs)).toBe(48)
+    })
 
-})
-
-
-describe('the blog(s) with most likes', () => {
-
-  test('When list empty should return empty array', () => {
-    expect(listHelper.favoriteBlog(emptyBlog)).toEqual([])
-  })
-
-  test('When list has only one blog, that blog should be returned', () => {
-    const result = [
-      {
-        title: 'React patterns',
-        author: 'Michael Chan',
-        likes: 7
-      }
-    ]
-    expect(listHelper.favoriteBlog(listWithOneBlog)).toEqual(result)
-  })
-
-  test('When multiple blogs, should return all with most likes ', () => {
-    const result = [
-      {
-        title: 'Canonical string reduction',
-        author: 'Edsger W. Dijkstra',
-        likes: 12
-      },
-      {
-        author: 'Robert C. Martin',
-        likes: 12,
-        title: 'TDD harms architecture'
-      }
-    ]
-    expect(listHelper.favoriteBlog(multipleBlogs)).toEqual(result)
-  })
-
-})
-
-describe('Most productive authors', () => {
-
-  test('When list empty, should return empty array', () => {
-    expect(listHelper.mostBlogs(emptyBlog)).toEqual([])
-  })
-
-  test('When list has only one blog, that blog shoudl be returned', () => {
-    const result = [
-      {
-        author: 'Michael Chan',
-        blogs: 1
-      }
-    ]
-    expect(listHelper.mostBlogs(listWithOneBlog)).toEqual(result)
-  })
-
-  test('When multiple blogs, should return all authors with most blogs', () => {
-    const result = [
-      {
-        author: 'Robert C. Martin',
-        blogs: 3
-      }
-    ]
-    expect(listHelper.mostBlogs(multipleBlogs)).toEqual(result)
-  })
-})
-
-describe('Most liked authors', () => {
-  test('When list empty, should return empty array', () => {
-    expect(listHelper.mostLikes(emptyBlog)).toEqual([])
   })
 
 
-  test('When list has only one blog, that blog shoudl be returned', () => {
-    const result = [
-      {
-        author: 'Michael Chan',
-        likes: 7
-      }
-    ]
-    expect(listHelper.mostLikes(listWithOneBlog)).toEqual(result)
+  describe('the blog(s) with most likes', () => {
+
+    test('When list empty should return empty array', () => {
+      expect(listHelper.favoriteBlog(emptyBlog)).toEqual([])
+    })
+
+    test('When list has only one blog, that blog should be returned', () => {
+      const result = [
+        {
+          title: 'React patterns',
+          author: 'Michael Chan',
+          likes: 7
+        }
+      ]
+      expect(listHelper.favoriteBlog(listWithOneBlog)).toEqual(result)
+    })
+
+    test('When multiple blogs, should return all with most likes ', () => {
+      const result = [
+        {
+          title: 'Canonical string reduction',
+          author: 'Edsger W. Dijkstra',
+          likes: 12
+        },
+        {
+          author: 'Robert C. Martin',
+          likes: 12,
+          title: 'TDD harms architecture'
+        }
+      ]
+      expect(listHelper.favoriteBlog(multipleBlogs)).toEqual(result)
+    })
+
   })
 
-  test('When list has multiple blogs, should return author with most likes combined', () => {
-    const result = [
-      {
-        author: 'Robert C. Martin',
-        likes: 24
-      }
-    ]
-    expect(listHelper.mostLikes(multipleBlogs)).toEqual(result)
+  describe('Most productive authors', () => {
+
+    test('When list empty, should return empty array', () => {
+      expect(listHelper.mostBlogs(emptyBlog)).toEqual([])
+    })
+
+    test('When list has only one blog, that blog shoudl be returned', () => {
+      const result = [
+        {
+          author: 'Michael Chan',
+          blogs: 1
+        }
+      ]
+      expect(listHelper.mostBlogs(listWithOneBlog)).toEqual(result)
+    })
+
+    test('When multiple blogs, should return all authors with most blogs', () => {
+      const result = [
+        {
+          author: 'Robert C. Martin',
+          blogs: 3
+        }
+      ]
+      expect(listHelper.mostBlogs(multipleBlogs)).toEqual(result)
+    })
+  })
+
+  describe('Most liked authors', () => {
+    test('When list empty, should return empty array', () => {
+      expect(listHelper.mostLikes(emptyBlog)).toEqual([])
+    })
+
+
+    test('When list has only one blog, that blog shoudl be returned', () => {
+      const result = [
+        {
+          author: 'Michael Chan',
+          likes: 7
+        }
+      ]
+      expect(listHelper.mostLikes(listWithOneBlog)).toEqual(result)
+    })
+
+    test('When list has multiple blogs, should return author with most likes combined', () => {
+      const result = [
+        {
+          author: 'Robert C. Martin',
+          likes: 24
+        }
+      ]
+      expect(listHelper.mostLikes(multipleBlogs)).toEqual(result)
+    })
   })
 })

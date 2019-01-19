@@ -1,9 +1,9 @@
-POST http://localhost:3003/api/blogs/
+POST http://localhost:3001/api/blogs/
 content-type: application/json
 
 {
-	"title": "Kikkeliskokkelis",
-	"author": "make",
-	"url": "penanblogi.fi", 
-	"likes": 12
+	"title": "Näin tehdään post-request",
+	"author": "make vaan",
+	"url": "makenblogi.net", 
+	"likes": 122
 }

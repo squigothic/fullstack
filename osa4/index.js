@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const blogsRouter = require('./controllers/blogs')
+const middleware = require('./utils/middleware')
 const config = require('./utils/config')
 
 mongoose
@@ -19,7 +20,11 @@ mongoose
 
 app.use(cors())
 app.use(bodyParser.json())
+app.use(middleware.logger)
+
 app.use('/api/blogs', blogsRouter)
+
+app.use(middleware.error)
 
 const server = http.createServer(app)
 
