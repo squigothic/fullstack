@@ -64,7 +64,7 @@ const multipleBlogs = [
 
 const emptyBlog = []
 
-describe.skip('list helpers', () => {
+describe('list helpers', () => {
   describe('total likes', () => {
     test('When list empy, should return zero as number of likes', () => {
       expect(listHelper.totalLikes(emptyBlog)).toBe(0)

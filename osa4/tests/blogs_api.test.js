@@ -50,6 +50,47 @@ describe('tests for blogs api', () => {
 
     expect(contents).toContain('Kaisa-Orvokin heppasaitti')
   })
+
+  test('adding a valid blog via post request works', async () => {
+    const newBlog = {
+      title: 'Express-palvelimen testaus jestillä',
+      author: 'Matti Nykänen',
+      url: 'nykanen.fi'
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const response = await api
+      .get('/api/blogs')
+
+    const contents = response.body.map(r => r.title)
+
+    expect(response.body.length).toBe(initialBlogs.length + 1)
+    expect(contents).toContain('Express-palvelimen testaus jestillä')
+  })
+
+  test('blog without title or author is not added', async () => {
+    const newBlog = {}
+
+    const initialBlogs = await api
+      .get('/api/blogs')
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const response = await api
+      .get('/api/blogs')
+
+    expect(response.body.length).toBe(initialBlogs.body.length)
+  })
+
+
 })
 
 afterAll(() => {
