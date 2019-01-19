@@ -90,6 +90,21 @@ describe('tests for blogs api', () => {
     expect(response.body.length).toBe(initialBlogs.body.length)
   })
 
+  test('it blog has no likes defined, 0 is added', async () => {
+    const newBlog = {
+      title: 'Keskimaan Mattikoulun villit vuodet',
+      author: 'Masa'
+    }
+
+    const resultOfPost = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    expect(resultOfPost.body.likes).toBe(0)
+  })
+
 
 })
 

@@ -18,6 +18,11 @@ blogsRouter.post('/', async (request, response) => {
     if (blog.title === undefined || blog.author === undefined) {
       return response.status(400).json({ error: 'title or author missing' })
     }
+
+    if (blog.likes === undefined) {
+      blog.likes = 0
+    }
+
     await blog.save()
 
     response.status(201).json(blog)
