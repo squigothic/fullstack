@@ -1,8 +1,0 @@
-POST http://localhost:3001/api/blogs/
-content-type: application/json
-
-{
-	"title": "Testataan like-säädön toimivuutta 22",
-	"author": "make vaan",
-	"url": "makenblogi.net" 
-}

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 
-const Blog = mongoose.model('Blog', {
+const blogSchema = mongoose.Schema({
   title: String,
   author: String,
   url: String,
   likes: Number
 })
 
-module.exports = Blog
+module.exports = mongoose.model('Blog', blogSchema)
