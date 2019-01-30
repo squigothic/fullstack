@@ -25,16 +25,15 @@ describe('tests for blogs api', () => {
   })
 
   test('all notes are returned', async () => {
-    const response = await api
-      .get('/api/blogs')
-    expect(response.body.length).toBe(helper.initialBlogs.length)
+    const response = await helper.blogsInDb()
+
+    expect(response.length).toBe(helper.initialBlogs.length)
   })
 
   test('a specifig blog is within the returned blogs', async () => {
-    const response = await api
-      .get('/api/blogs')
+    const response = await helper.blogsInDb()
 
-    const contents = response.body.map(r => r.title)
+    const contents = response.map(r => r.title)
 
     expect(contents).toContain('Kaisa-Orvokin heppasaitti')
   })
@@ -62,18 +61,16 @@ describe('tests for blogs api', () => {
   test('blog without title or author is not added', async () => {
     const newBlog = {}
 
-    const initialBlogs = await api
-      .get('/api/blogs')
+    const initialBlogs = await helper.blogsInDb()
 
     await api
       .post('/api/blogs')
       .send(newBlog)
       .expect(400)
 
-    const response = await api
-      .get('/api/blogs')
+    const response = await helper.blogsInDb()
 
-    expect(response.body.length).toBe(initialBlogs.body.length)
+    expect(response.length).toBe(initialBlogs.length)
   })
 
   test('it blog has no likes defined, 0 is added', async () => {
