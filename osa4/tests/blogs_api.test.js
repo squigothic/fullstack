@@ -5,14 +5,13 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 const helper = require('./test_helpers')
 
-beforeEach(async () => {
+beforeAll(async () => {
   await Blog.remove({})
 
-  let blogObject = new Blog(helper.initialBlogs[0])
-  await blogObject.save()
-
-  blogObject = new Blog(helper.initialBlogs[1])
-  await blogObject.save()
+  const blogObjects = helper.initialBlogs
+    .map(blog => new Blog(blog))
+  const promiseArray = blogObjects.map(blog => blog.save())
+  await Promise.all(promiseArray)
 })
 
 describe('tests for blogs api', () => {
@@ -36,6 +35,14 @@ describe('tests for blogs api', () => {
     const contents = response.map(r => r.title)
 
     expect(contents).toContain('Kaisa-Orvokin heppasaitti')
+  })
+
+  test('blog object includes field id which is defined', async () => {
+    const response = await helper.blogsInDb()
+
+    const firstBlog = response[0]
+
+    expect(firstBlog.id).toBeDefined()
   })
 
   test('adding a valid blog via post request works', async () => {
