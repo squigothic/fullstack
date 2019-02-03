@@ -1,6 +1,6 @@
 const supertest = require('supertest')
 const mongoose = require('mongoose')
-const app  = require('../app')
+const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
 const helper = require('./test_helpers')
@@ -14,7 +14,7 @@ beforeAll(async () => {
   await Promise.all(promiseArray)
 })
 
-describe('tests for blogs api', () => {
+describe('general tests for api', async () => {
 
   test('blogs are returned as json', async () => {
     await api
@@ -96,7 +96,7 @@ describe('tests for blogs api', () => {
     expect(resultOfPost.body.likes).toBe(0)
   })
 
-  test('blog without title and url will be respondes with 400 bad request', async () => {
+  test('blog without title and url will be responded with 400 bad request', async () => {
     const newBlog = {
       author: 'unknown',
       likes: 200
@@ -106,9 +106,43 @@ describe('tests for blogs api', () => {
       .post('/api/blogs')
       .send(newBlog)
       .expect(400)
+
   })
+})
 
+describe('deletion of a blog', async () => {
+  test('succeeds with status code 200 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+    await api
+      .delete(`/api/blogs/delete/${blogToDelete.id}`)
+      .expect(204)
 
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(blogsAtStart.length - 1)
+
+    const contents = blogsAtEnd.map(b => b.title)
+
+    expect(contents).not.toContain(blogToDelete.title)
+  })
+})
+
+describe('modifying the likes of existing blog', async () => {
+  test('increases the number of likes by one', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+
+    const blogToUpdate = blogsAtStart[0]
+
+    await api
+      .put(`/api/blogs/update/${blogToUpdate.id}`)
+      .expect(200)
+
+    const afterUpdate = await helper.blogsInDb()
+    const updatedBlog = afterUpdate.filter(b => b.id === blogToUpdate.id)
+
+    expect(updatedBlog[0].likes).toBe(blogToUpdate.likes + 1)
+
+  })
 })
 
 afterAll(() => {
