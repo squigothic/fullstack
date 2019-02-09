@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../controllers/users')
 
 blogsRouter.get('/', async (request, response, next) => {
   try {
@@ -13,6 +14,8 @@ blogsRouter.get('/', async (request, response, next) => {
 blogsRouter.post('/', async (request, response, next) => {
 
   const blog = new Blog(request.body)
+
+  //const user = await User.findById(body.userId)
 
   if (blog.title === undefined || blog.url === undefined) {
     return response.status(400).json({ error: 'required field missing' })

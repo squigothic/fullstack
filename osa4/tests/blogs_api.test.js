@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
-const User = require('../controllers/users')
+const User = require('../models/user')
 const helper = require('./test_helpers')
 
 beforeAll(async () => {
@@ -159,7 +159,7 @@ describe('when there is initially one user at db', async () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
-      username: 'matti',
+      username: 'mika',
       name: 'Matti Möttönen',
       password: 'salaisuus',
     }
@@ -176,6 +176,30 @@ describe('when there is initially one user at db', async () => {
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(newUser.username)
   })
+
+  test('creation fails if username already in use', async () => {
+
+    const usersAtStart= await helper.usersInDb()
+
+    const existingUser = usersAtStart[0]
+
+    const newUser = {
+      username: existingUser.username,
+      name: 'olemassa oleva kayttaja',
+      password: 'salaisuus'
+    }
+
+    const response = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+
+    const checkForValidationError = response.error.text.toString().includes('User validation failed')
+
+    expect(checkForValidationError).toBe(true)
+
+  })
+
 })
 
 afterAll(() => {
