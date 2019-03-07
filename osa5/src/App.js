@@ -15,10 +15,22 @@ const App = () => {
     )
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
+    if(loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+    }
+  }, [])
+
   const login = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login({ username, password })
+
+      window.localStorage.setItem(
+        'loggedBlogUser', JSON.stringify(user)
+      )
 
       setUser(user)
       console.log('kirjauduttiin sisään käyttäjänä: ', user)
@@ -27,6 +39,11 @@ const App = () => {
     } catch (exception) {
         console.log('tässä näytetään myöhemmin virheilmoitus, jonka sisältöä on ', exception)
     }
+  }
+
+  const clearLocalStorage = () => {
+    window.localStorage.removeItem('loggedBlogUser')
+    setUser(null)
   }
 
   if (user === null) {
@@ -61,9 +78,12 @@ const App = () => {
       <h2>blogs</h2>
 
       <p>{user.username} logged in</p>
+      <button onClick={ clearLocalStorage }>log out</button>
+      <div>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
+      </div>
     </div>
   )
 }
