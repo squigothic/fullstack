@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import NewBlog from './components/NewBlog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import showNotification from './services/notification'
+import './index.css'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -27,17 +32,16 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({ username, password })
-
+      showNotification(setNotificationMessage, `logged in as ${user.username}`)
       window.localStorage.setItem(
         'loggedBlogUser', JSON.stringify(user)
       )
-
+      blogService.setToken(user.token)
       setUser(user)
-      console.log('kirjauduttiin sisään käyttäjänä: ', user)
       setUsername('')
       setPassword('')
     } catch (exception) {
-        console.log('tässä näytetään myöhemmin virheilmoitus, jonka sisältöä on ', exception)
+      showNotification(setNotificationMessage, `wrong username or password`)
     }
   }
 
@@ -46,11 +50,14 @@ const App = () => {
     setUser(null)
   }
 
+
+
   if (user === null) {
     return (
       <div>
+        <Notification message={ notificationMessage } />
         <h2>Log in to application</h2>
-        <form onSubmit={login}>
+        <form onSubmit={ login }>
           <div>
             username
           <input
@@ -75,7 +82,8 @@ const App = () => {
 
   return (
     <div>
-      <h2>blogs</h2>
+      <Notification message={ notificationMessage } />
+      <h2>Blogs</h2>
 
       <p>{user.username} logged in</p>
       <button onClick={ clearLocalStorage }>log out</button>
@@ -83,6 +91,14 @@ const App = () => {
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
+      </div>
+      <div>
+        <NewBlog 
+          blogs={ blogs } 
+          updateBlogs={ setBlogs } 
+          user={ user }
+          setNotificationMessage={ setNotificationMessage }
+          />
       </div>
     </div>
   )
