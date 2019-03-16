@@ -8,8 +8,12 @@ const NewBlog = (props) => {
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
 
+    console.log('PropS: ', props)
+    
+
     const createNewBlog = async (event) => {
         event.preventDefault()
+        props.toggleVisibility()
         const newBlogObject = {
             title,
             author,

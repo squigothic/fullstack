@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
-import NewBlog from './components/NewBlog'
-import Notification from './components/Notification'
+// services
 import blogService from './services/blogs'
 import loginService from './services/login'
 import showNotification from './services/notification'
+//components
+import Blog from './components/Blog'
+import NewBlog from './components/NewBlog'
+import Notification from './components/Notification'
+import Login from './components/Login'
+// tyylit
 import './index.css'
+import Togglable from './components/Togglable';
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,6 +18,8 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
+
+  const blogFormRef = React.createRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -22,7 +29,7 @@ const App = () => {
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
-    if(loggedUserJSON) {
+    if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
     }
@@ -54,51 +61,39 @@ const App = () => {
 
   if (user === null) {
     return (
-      <div>
-        <Notification message={ notificationMessage } />
-        <h2>Log in to application</h2>
-        <form onSubmit={ login }>
-          <div>
-            username
-          <input
-              type="text"
-              value={username}
-              onChange={({ target }) => setUsername(target.value)}
-            />
-        </div>
-        <div>
-            password 
-          <input
-              type="password"
-              value={password}
-              onChange={({ target }) => setPassword(target.value)}
-            />
-        </div>
-        <button type="submit">login</button>
-        </form>
-      </div>
+      <Login
+        doLogin={login}
+        username={username}
+        password={password}
+        handleUsernameChange={({ target }) => setUsername(target.value)}
+        handlePasswordChange={({ target }) => setPassword(target.value)}
+        notificationMessage={notificationMessage}
+      />
     )
   }
 
   return (
     <div>
-      <Notification message={ notificationMessage } />
+      <Notification message={notificationMessage} />
       <h2>Blogs</h2>
 
       <p>{user.username} logged in</p>
-      <button onClick={ clearLocalStorage }>log out</button>
+      <button onClick={clearLocalStorage}>log out</button>
       <div>
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} />
+        )}
       </div>
       <div>
-        <NewBlog 
-          blogs={ blogs } 
-          updateBlogs={ setBlogs } 
-          user={ user }
-          setNotificationMessage={ setNotificationMessage }
+        <Togglable buttonLabel="Create new blog" ref={blogFormRef}>
+          <NewBlog
+            blogs={blogs}
+            updateBlogs={setBlogs}
+            user={user}
+            setNotificationMessage={setNotificationMessage}
+            toggleVisibility={() => blogFormRef.current.toggleVisibility()}
           />
+        </Togglable>
       </div>
     </div>
   )
