@@ -23,7 +23,6 @@ const Blog = ({ blog, updateBlogLikes }) => {
   
   const updateBlog = async () => {
     const response = await blogService.update(blog.id)
-    console.log('reponse.id: ', response)
     updateBlogLikes(response.id, response)
   }
  

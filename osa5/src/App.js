@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs(blogs)
+      setBlogs(blogs.sort((a, b) => b.likes - a.likes))
     )
   }, [])
 
@@ -60,8 +60,7 @@ const App = () => {
   const updateBlogLikes = (id, updatedBlog) => {
     const modifiedBlogs = blogs.filter(blog => blog.id !== id)
     modifiedBlogs.push(updatedBlog)
-    setBlogs(modifiedBlogs)
-    console.log('blogit: ', blogs)
+    setBlogs(modifiedBlogs.sort((a, b) => b.likes - a.likes))
   }
 
   if (user === null) {
