@@ -57,10 +57,20 @@ const App = () => {
     setUser(null)
   }
 
-  const updateBlogLikes = (id, updatedBlog) => {
+  const updateBlogLikes = async (id) => {
+    const response = await blogService.update(id)
     const modifiedBlogs = blogs.filter(blog => blog.id !== id)
-    modifiedBlogs.push(updatedBlog)
+    modifiedBlogs.push(response)
     setBlogs(modifiedBlogs.sort((a, b) => b.likes - a.likes))
+  }
+
+  const deleteBlog = (id) => {
+    console.log('ollaan poistamassa blogia ', id)
+    if(window.confirm("Are you sure about that?")) {
+      blogService.setToken(user.token)
+      blogService.deleteBlog(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+    }
   }
 
   if (user === null) {
@@ -102,7 +112,12 @@ const App = () => {
       </div>
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} updateBlogLikes={updateBlogLikes}/>
+          <Blog 
+            key={blog.id}
+            blog={blog}
+            updateBlogLikes={updateBlogLikes}
+            deleteBlog={deleteBlog}
+            />
         )}
       </div>
     </div>
