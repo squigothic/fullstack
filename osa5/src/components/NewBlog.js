@@ -14,7 +14,7 @@ const NewBlog = (props) => {
         const newBlogObject = {
             title,
             author,
-            url
+            url,
         }
         blogService.setToken(props.user.token)
         const returnedBlog = await blogService.create(newBlogObject)

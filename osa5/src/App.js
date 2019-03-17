@@ -10,7 +10,7 @@ import Notification from './components/Notification'
 import Login from './components/Login'
 // tyylit
 import './index.css'
-import Togglable from './components/Togglable';
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -57,7 +57,12 @@ const App = () => {
     setUser(null)
   }
 
-
+  const updateBlogLikes = (id, updatedBlog) => {
+    const modifiedBlogs = blogs.filter(blog => blog.id !== id)
+    modifiedBlogs.push(updatedBlog)
+    setBlogs(modifiedBlogs)
+    console.log('blogit: ', blogs)
+  }
 
   if (user === null) {
     return (
@@ -98,7 +103,7 @@ const App = () => {
       </div>
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} updateBlogLikes={updateBlogLikes}/>
         )}
       </div>
     </div>

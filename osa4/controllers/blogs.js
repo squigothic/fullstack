@@ -32,7 +32,7 @@ blogsRouter.post('/', async (request, response, next) => {
       author: body.author,
       url: body.url,
       likes: body.likes,
-      user: user.id
+      user: user
     })
 
     if (blog.title === undefined || blog.url === undefined) {
@@ -89,7 +89,9 @@ blogsRouter.put('/update/:id', async (request, response, next) => {
       likes: blogToUpdate.likes + 1
     }
 
-    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+    const updatedBlog = await Blog
+      .findByIdAndUpdate(request.params.id, blog, { new: true })
+      .populate('user', { username: 1, name: 1, id: 1 })
     response.json(updatedBlog.toJSON())
   } catch (exception) {
     next(exception)

@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-const Blog = ({ blog }) => {
+import blogService from '../services/blogs'
+
+const Blog = ({ blog, updateBlogLikes }) => {
   const [expanded, setExpansion] = useState(false)
 
   const blogStyle = {
@@ -12,6 +14,19 @@ const Blog = ({ blog }) => {
     
   } 
 
+  const titleStyle = {
+    backgroundColor: '#93BBD3'
+  }
+
+  //console.log('User: ', blog.user)
+  //console.log('Bloglikes: ', updateBlogLikes)
+  
+  const updateBlog = async () => {
+    const response = await blogService.update(blog.id)
+    console.log('reponse.id: ', response)
+    updateBlogLikes(response.id, response)
+  }
+ 
   if (expanded === false) {
     return (
       <div style={blogStyle}>
@@ -25,9 +40,11 @@ const Blog = ({ blog }) => {
   return (
     <div style={blogStyle}>
       <div>
-        <p onClick={() => setExpansion(!expanded)}>{blog.title} {blog.author}</p>
+        <div style={titleStyle} onClick={() => setExpansion(!expanded)}>
+          <p>{blog.title} {blog.author}</p>
+        </div>
         <p>{blog.url}</p>
-        <p>{blog.likes} <button onClick={() => console.log('kliccked')}>like</button></p>
+        <p>{blog.likes} <button onClick={() => updateBlog()}>like</button></p>
         <p>{blog.user.name}</p>
       </div>
     </div>
