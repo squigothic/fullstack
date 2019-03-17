@@ -39,6 +39,8 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login({ username, password })
+      console.log('juuuseri: ', user)
+      
       showNotification(setNotificationMessage, `logged in as ${user.username}`)
       window.localStorage.setItem(
         'loggedBlogUser', JSON.stringify(user)
@@ -72,7 +74,7 @@ const App = () => {
       setBlogs(blogs.filter(blog => blog.id !== id))
     }
   }
-
+    
   if (user === null) {
     return (
       <Login
@@ -117,6 +119,7 @@ const App = () => {
             blog={blog}
             updateBlogLikes={updateBlogLikes}
             deleteBlog={deleteBlog}
+            user={user}
             />
         )}
       </div>

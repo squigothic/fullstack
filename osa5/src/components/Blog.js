@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, updateBlogLikes, deleteBlog }) => {
+const Blog = ({ blog, updateBlogLikes, deleteBlog, user }) => {
   const [expanded, setExpansion] = useState(false)
 
   const blogStyle = {
@@ -36,7 +36,9 @@ const Blog = ({ blog, updateBlogLikes, deleteBlog }) => {
         <p>{blog.url}</p>
         <p>{blog.likes} <button onClick={() => updateBlogLikes(blog.id)}>like</button></p>
         <p>{blog.user.name}</p>
-        <button onClick={() => deleteBlog(blog.id)}>Delete</button>
+        {blog.user.id === user.id &&
+          <button onClick={() => deleteBlog(blog.id)}>Delete</button>
+        }
       </div>
     </div>
   )
