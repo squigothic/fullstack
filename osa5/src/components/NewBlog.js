@@ -8,9 +8,6 @@ const NewBlog = (props) => {
     const [author, setAuthor] = useState('')
     const [url, setUrl] = useState('')
 
-    console.log('PropS: ', props)
-    
-
     const createNewBlog = async (event) => {
         event.preventDefault()
         props.toggleVisibility()
@@ -26,35 +23,36 @@ const NewBlog = (props) => {
         setTitle('')
         setUrl('')
         setAuthor('')
-    } 
-    
+    }
+
     return (
         <div>
-            <h2>Create new blog entry</h2>
-            <form onSubmit={ createNewBlog }>
-                <div>
+            <div><h2>Create new blog entry</h2></div>
+            <div>
+                <form onSubmit={createNewBlog}>
+                    <div>
                     title
                     <input
-                        type="text"
-                        value={ title }
-                        onChange={({ target }) => setTitle(target.value)}
-                    />
+                            type="text"
+                            value={title}
+                            onChange={({ target }) => setTitle(target.value)}
+                        />
                     author
                     <input
-                        type="text"
-                        value={ author }
-                        onChange={({ target }) => setAuthor(target.value)}
-                    />
-                    url
-                    <input 
-                        type="text"
-                        value={ url }
-                        onChange={({ target }) => setUrl(target.value)}
-                    />
-                </div>
-                <button type="submit">Create</button>
-            </form>
-
+                            type="text"
+                            value={author}
+                            onChange={({ target }) => setAuthor(target.value)}
+                        />
+                        url
+                    <input
+                            type="text"
+                            value={url}
+                            onChange={({ target }) => setUrl(target.value)}
+                        />
+                    </div>
+                    <button type="submit">Create</button>
+                </form>
+            </div>
         </div>
     )
 }

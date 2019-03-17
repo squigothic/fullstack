@@ -75,15 +75,16 @@ const App = () => {
   return (
     <div>
       <Notification message={notificationMessage} />
-      <h2>Blogs</h2>
-
-      <p>{user.username} logged in</p>
-      <button onClick={clearLocalStorage}>log out</button>
-      <div>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        )}
+      <div id="top">
+        <div className="title">
+          <h2>Blogs</h2>
+        </div>
+        <div id="userinfo">
+          <p>{user.username} logged in</p>
+          <button onClick={clearLocalStorage}>log out</button>
+        </div>
       </div>
+
       <div>
         <Togglable buttonLabel="Create new blog" ref={blogFormRef}>
           <NewBlog
@@ -94,6 +95,11 @@ const App = () => {
             toggleVisibility={() => blogFormRef.current.toggleVisibility()}
           />
         </Togglable>
+      </div>
+      <div>
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} />
+        )}
       </div>
     </div>
   )

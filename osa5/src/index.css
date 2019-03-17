@@ -7,3 +7,18 @@
     padding: 10px;
     margin-bottom: 10px;
   }
+
+  .title {
+    float: left;
+    height: 2em;
+    width: 50%;
+  }
+
+  #userinfo {
+    float: right;
+  }
+
+  #top {
+    height: 3em;
+  }
+
