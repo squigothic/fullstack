@@ -40,7 +40,7 @@ const App = () => {
     try {
       const user = await loginService.login({ username, password })
       console.log('juuuseri: ', user)
-      
+
       showNotification(setNotificationMessage, `logged in as ${user.username}`)
       window.localStorage.setItem(
         'loggedBlogUser', JSON.stringify(user)
@@ -50,7 +50,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      showNotification(setNotificationMessage, `wrong username or password`)
+      showNotification(setNotificationMessage, 'wrong username or password')
     }
   }
 
@@ -68,13 +68,13 @@ const App = () => {
 
   const deleteBlog = (id) => {
     console.log('ollaan poistamassa blogia ', id)
-    if(window.confirm("Are you sure about that?")) {
+    if(window.confirm('Are you sure about that?')) {
       blogService.setToken(user.token)
       blogService.deleteBlog(id)
       setBlogs(blogs.filter(blog => blog.id !== id))
     }
   }
-    
+
   if (user === null) {
     return (
       <Login
@@ -114,13 +114,13 @@ const App = () => {
       </div>
       <div>
         {blogs.map(blog =>
-          <Blog 
+          <Blog
             key={blog.id}
             blog={blog}
             updateBlogLikes={updateBlogLikes}
             deleteBlog={deleteBlog}
             user={user}
-            />
+          />
         )}
       </div>
     </div>

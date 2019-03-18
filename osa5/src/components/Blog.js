@@ -11,8 +11,8 @@ const Blog = ({ blog, updateBlogLikes, deleteBlog, user }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-    
-  } 
+
+  }
 
   const titleStyle = {
     backgroundColor: '#93BBD3'
