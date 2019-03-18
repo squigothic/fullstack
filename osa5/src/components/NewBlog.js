@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import showNotification from '../services/notification'
+import PropTypes from 'prop-types'
 
 const NewBlog = (props) => {
 
@@ -49,12 +50,20 @@ const NewBlog = (props) => {
                             value={url}
                             onChange={({ target }) => setUrl(target.value)}
                         />
+                        <button type="submit">Create</button>
                     </div>
-                    <button type="submit">Create</button>
                 </form>
             </div>
         </div>
     )
+}
+
+NewBlog.propTypes = {
+    blogs: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
+    updateBlogs: PropTypes.func.isRequired,
+    setNotificationMessage: PropTypes.func.isRequired,
+    toggleVisibility: PropTypes.func.isRequired
 }
 
 export default NewBlog
