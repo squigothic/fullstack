@@ -68,7 +68,7 @@ const App = () => {
 
   const deleteBlog = (id) => {
     console.log('ollaan poistamassa blogia ', id)
-    if(window.confirm('Are you sure about that?')) {
+    if (window.confirm('Are you sure about that?')) {
       blogService.setToken(user.token)
       blogService.deleteBlog(id)
       setBlogs(blogs.filter(blog => blog.id !== id))

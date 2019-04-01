@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from 'react-testing-library'
-import { prettyDOM } from 'dom-testing-library'
+//import { prettyDOM } from 'dom-testing-library'
 import SimpleBlog from './SimpleBlog'
 
 it('renders blog title and author', () => {
@@ -15,7 +15,7 @@ it('renders blog title and author', () => {
   )
 
   const authorDiv = component.container.querySelector('.titleAndAuthor')
-  console.log(prettyDOM(authorDiv))
+  //console.log(prettyDOM(authorDiv))
 
   expect(authorDiv).toHaveTextContent(
     'blogin otsikko kirjailija'

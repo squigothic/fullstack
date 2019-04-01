@@ -21,7 +21,7 @@ const Blog = ({ blog, updateBlogLikes, deleteBlog, user }) => {
   if (expanded === false) {
     return (
       <div style={blogStyle}>
-        <div onClick={() => setExpansion(!expanded)}>
+        <div className="clickableDiv" onClick={() => setExpansion(!expanded)}>
           {blog.title} {blog.author}
         </div>
       </div>
@@ -30,7 +30,7 @@ const Blog = ({ blog, updateBlogLikes, deleteBlog, user }) => {
 
   return (
     <div style={blogStyle}>
-      <div>
+      <div className="extendedDiv">
         <div style={titleStyle} onClick={() => setExpansion(!expanded)}>
           <p>{blog.title} {blog.author}</p>
         </div>
