@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from 'react-testing-library'
-import { prettyDOM } from 'dom-testing-library'
+//import { prettyDOM } from 'dom-testing-library'
 import Blog from './Blog'
 
 it('only title and author are visible originally and clicking extends info', () => {

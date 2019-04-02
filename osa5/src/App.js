@@ -22,6 +22,8 @@ const App = () => {
   const blogFormRef = React.createRef()
 
   useEffect(() => {
+    // fetchData()
+    console.log('AWDAWDAWDAWD', blogService.getAll())
     blogService.getAll().then(blogs =>
       setBlogs(blogs.sort((a, b) => b.likes - a.likes))
     )
@@ -34,6 +36,13 @@ const App = () => {
       setUser(user)
     }
   }, [])
+
+  // const fetchData = async () => {
+  //   console.log(typeof (blogService))
+  //   const blogit = await blogService.getAll()
+  //   console.log('BLOGIT', blogit)
+  //   setBlogs(blogs.sort((a, b) => b.likes - a.likes))
+  // }
 
   const login = async (event) => {
     event.preventDefault()
