@@ -8,15 +8,16 @@ const setToken = newToken => {
   token = `bearer ${newToken}`
 }
 
-// const getAll = async () => {
-//   const request = await axios.get(baseUrl)
-//   return request.data
-// }
-
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+const getAll = async () => {
+  const request = await axios.get(baseUrl)
+  console.log('awdawd ', request.data)
+  return request.data
 }
+
+// const getAll = () => {
+//   const request = axios.get(baseUrl)
+//   return request.then(response => response.data)
+// }
 
 const create = async newObject => {
   const config = {
