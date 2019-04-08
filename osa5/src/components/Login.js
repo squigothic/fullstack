@@ -6,30 +6,23 @@ const Login = ({
   doLogin,
   username,
   password,
-  handleUsernameChange,
-  handlePasswordChange,
   notificationMessage }) => {
+
+  console.log('username: ', username)
+  console.log('password: ', password)
 
   return (
     <div>
-      <Notification message={ notificationMessage } />
+      <Notification message={notificationMessage} />
       <h2>Log in to application</h2>
-      <form onSubmit={ doLogin }>
+      <form onSubmit={doLogin}>
         <div>
-        username
-          <input
-            type="text"
-            value={username}
-            onChange={handleUsernameChange}
-          />
+          username
+          <input {...username} />
         </div>
         <div>
-        password
-          <input
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-          />
+          password
+          <input {...password} />
         </div>
         <button type="submit">login</button>
       </form>

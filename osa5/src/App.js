@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from 'react'
-// services
 import blogService from './services/blogs'
 import loginService from './services/login'
 import showNotification from './services/notification'
-//components
 import Blog from './components/Blog'
 import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
 import Login from './components/Login'
-// tyylit
 import './index.css'
 import Togglable from './components/Togglable'
+import { useField } from './hooks/index'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('text')
+  const password = useField('password')
   const [notificationMessage, setNotificationMessage] = useState(null)
 
   const blogFormRef = React.createRef()
@@ -38,17 +36,18 @@ const App = () => {
   const login = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({ username, password })
+      const user = await loginService.login({ username: username.value, password: password.value })
 
       showNotification(setNotificationMessage, `logged in as ${user.username}`)
       window.localStorage.setItem(
         'loggedBlogUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
+      username.setValue('')
+      password.setValue('')
     } catch (exception) {
+      console.log('virhe: ', exception)
+
       showNotification(setNotificationMessage, 'wrong username or password')
     }
   }
@@ -80,8 +79,6 @@ const App = () => {
         doLogin={login}
         username={username}
         password={password}
-        handleUsernameChange={({ target }) => setUsername(target.value)}
-        handlePasswordChange={({ target }) => setPassword(target.value)}
         notificationMessage={notificationMessage}
       />
     )
