@@ -8,9 +8,6 @@ const Login = ({
   password,
   notificationMessage }) => {
 
-  console.log('username: ', username)
-  console.log('password: ', password)
-
   return (
     <div>
       <Notification message={notificationMessage} />

@@ -43,8 +43,7 @@ const App = () => {
         'loggedBlogUser', JSON.stringify(user)
       )
       blogService.setToken(user.token)
-      username.setValue('')
-      password.setValue('')
+      setUser(user)
     } catch (exception) {
       console.log('virhe: ', exception)
 
