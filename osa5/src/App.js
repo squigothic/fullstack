@@ -15,6 +15,9 @@ const App = () => {
   const [user, setUser] = useState(null)
   const username = useField('text')
   const password = useField('password')
+  const title = useField('text')
+  const url = useField('text')
+  const author = useField('text')
   const [notificationMessage, setNotificationMessage] = useState(null)
 
   const blogFormRef = React.createRef()
@@ -72,6 +75,23 @@ const App = () => {
     }
   }
 
+  const createNewBlog = async (event) => {
+    event.preventDefault()
+    blogFormRef.current.toggleVisibility()
+    const newBlogObject = {
+      title: title.value,
+      author: author.value,
+      url: url.value,
+    }
+    blogService.setToken(user.token)
+    const returnedBlog = await blogService.create(newBlogObject)
+    showNotification(setNotificationMessage, 'created a new blog')
+    setBlogs(blogs.concat(returnedBlog))
+    title.reset()
+    author.reset()
+    url.reset()
+  }
+
   if (user === null) {
     return (
       <Login
@@ -99,11 +119,10 @@ const App = () => {
       <div>
         <Togglable buttonLabel="Create new blog" ref={blogFormRef}>
           <NewBlog
-            blogs={blogs}
-            updateBlogs={setBlogs}
-            user={user}
-            setNotificationMessage={setNotificationMessage}
-            toggleVisibility={() => blogFormRef.current.toggleVisibility()}
+            title={title}
+            url={url}
+            author={author}
+            handleSubmit={createNewBlog}
           />
         </Togglable>
       </div>

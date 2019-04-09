@@ -1,54 +1,22 @@
-import React, { useState } from 'react'
-import blogService from '../services/blogs'
-import showNotification from '../services/notification'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-const NewBlog = (props) => {
-
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-
-  const createNewBlog = async (event) => {
-    event.preventDefault()
-    props.toggleVisibility()
-    const newBlogObject = {
-      title,
-      author,
-      url,
-    }
-    blogService.setToken(props.user.token)
-    const returnedBlog = await blogService.create(newBlogObject)
-    showNotification(props.setNotificationMessage, 'created a new blog')
-    props.updateBlogs(props.blogs.concat(returnedBlog))
-    setTitle('')
-    setUrl('')
-    setAuthor('')
-  }
+const NewBlog = ({ handleSubmit, title, author, url }) => {
 
   return (
     <div>
       <div><h2>Create new blog entry</h2></div>
       <div>
-        <form onSubmit={createNewBlog}>
+        <form onSubmit={handleSubmit}>
           <div>
-                    title
-            <input
-              type="text"
-              value={title}
-              onChange={({ target }) => setTitle(target.value)}
+            title
+            <input {...title}
             />
-                    author
-            <input
-              type="text"
-              value={author}
-              onChange={({ target }) => setAuthor(target.value)}
+            author
+            <input {...author}
             />
-                        url
-            <input
-              type="text"
-              value={url}
-              onChange={({ target }) => setUrl(target.value)}
+            url
+            <input {...url}
             />
             <button type="submit">Create</button>
           </div>
@@ -59,11 +27,10 @@ const NewBlog = (props) => {
 }
 
 NewBlog.propTypes = {
-  blogs: PropTypes.array.isRequired,
-  user: PropTypes.object.isRequired,
-  updateBlogs: PropTypes.func.isRequired,
-  setNotificationMessage: PropTypes.func.isRequired,
-  toggleVisibility: PropTypes.func.isRequired
+  title: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  author: PropTypes.object.isRequired,
+  url: PropTypes.object.isRequired
 }
 
 export default NewBlog
