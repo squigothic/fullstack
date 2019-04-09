@@ -10,13 +10,13 @@ const NewBlog = ({ handleSubmit, title, author, url }) => {
         <form onSubmit={handleSubmit}>
           <div>
             title
-            <input {...title}
+            <input {...title.input}
             />
             author
-            <input {...author}
+            <input {...author.input}
             />
             url
-            <input {...url}
+            <input {...url.input}
             />
             <button type="submit">Create</button>
           </div>

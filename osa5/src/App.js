@@ -39,7 +39,7 @@ const App = () => {
   const login = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({ username: username.value, password: password.value })
+      const user = await loginService.login({ username: username.input.value, password: password.input.value })
 
       showNotification(setNotificationMessage, `logged in as ${user.username}`)
       window.localStorage.setItem(
@@ -79,9 +79,9 @@ const App = () => {
     event.preventDefault()
     blogFormRef.current.toggleVisibility()
     const newBlogObject = {
-      title: title.value,
-      author: author.value,
-      url: url.value,
+      title: title.input.value,
+      author: author.input.value,
+      url: url.input.value,
     }
     blogService.setToken(user.token)
     const returnedBlog = await blogService.create(newBlogObject)

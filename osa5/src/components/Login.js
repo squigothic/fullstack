@@ -15,11 +15,11 @@ const Login = ({
       <form onSubmit={doLogin}>
         <div>
           username
-          <input {...username} />
+          <input {...username.input} />
         </div>
         <div>
           password
-          <input {...password} />
+          <input {...password.input} />
         </div>
         <button type="submit">login</button>
       </form>
