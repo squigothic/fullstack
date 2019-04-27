@@ -1,12 +1,15 @@
-import React from 'react';
+import React from 'react'
+import { addVote } from './reducers/anecdoteReducer'
+import AddAnecdote from './components/AddAnecdote'
 
 const App = (props) => {
-  const anecdotes = props.store.getState()
-  
-  const vote = (id) => {
-    console.log('vote', id)
+  const store = props.store
+  const anecdotes = store.getState()
+
+  const vote = (anecdote) => {
+    store.dispatch(addVote(anecdote))
   }
-  
+
   return (
     <div>
       <h2>Anecdotes</h2>
@@ -17,15 +20,11 @@ const App = (props) => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => vote(anecdote)}>vote</button>
           </div>
         </div>
       )}
-      <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
-      </form>
+      <AddAnecdote store={store}/>
     </div>
   )
 }
