@@ -1,12 +1,12 @@
 import React from 'react'
 import { newAnecdote } from '../reducers/anecdoteReducer'
 
-const AddAnecdote = ({ store }) => {
+const AnecdoteForm = ({ store }) => {
     const handleSubmit = (event) => {
         event.preventDefault()
         const content = event.target.anecdote.value
         store.dispatch(newAnecdote(content))
-    }   
+    }
 
     return (
         <div>
@@ -19,4 +19,4 @@ const AddAnecdote = ({ store }) => {
     )
 }
 
-export default AddAnecdote
+export default AnecdoteForm
