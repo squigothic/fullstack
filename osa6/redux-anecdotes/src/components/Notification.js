@@ -7,8 +7,7 @@ const Notification = ({ notification }) => {
 
   return (
     <div>
-      {notification.status &&
-        <NotificationContent content={notification.content.content} />}
+      {notification.status && <NotificationContent content={notification.content.content} />}
     </div>
   )
 }
