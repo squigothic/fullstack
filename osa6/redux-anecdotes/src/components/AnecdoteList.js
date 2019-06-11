@@ -35,7 +35,6 @@ const AnecdoteList = (props) => {
 }
 
 const anecdotesToDisplay = ({ anecdotes, filter }) => {
-  console.log(anecdotes, filter)
   if (filter.length > 0) {
     return anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter.toLowerCase()))
   } else {
