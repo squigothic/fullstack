@@ -4,11 +4,10 @@ import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
 import Notification from './components/Notification'
 import { initializeAnecdotes } from './reducers/anecdoteReducer'
-import anecdoteService from './services/anecdotes'
 
-const App = (props) => {
+const App = props => {
   useEffect(() => {
-    anecdoteService.getAll().then(notes => props.initializeAnecdotes(notes))
+    props.initializeAnecdotes()
   }, [])
 
   return (
@@ -21,4 +20,7 @@ const App = (props) => {
   )
 }
 
-export default connect(null, { initializeAnecdotes })(App)
+export default connect(
+  null,
+  { initializeAnecdotes }
+)(App)
