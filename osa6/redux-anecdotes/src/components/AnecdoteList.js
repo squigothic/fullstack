@@ -4,13 +4,11 @@ import { connect } from 'react-redux'
 import Filter from './Filter'
 import { addVote } from '../reducers/anecdoteReducer'
 import { showNotification } from '../reducers/notificationReducer'
-import { hideNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = props => {
   const vote = anecdote => {
     props.addVote(anecdote)
-    props.showNotification(anecdote)
-    setTimeout(() => props.hideNotification(), 3000)
+    props.showNotification(anecdote, 3)
   }
 
   return (
@@ -51,7 +49,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   addVote,
   showNotification,
-  hideNotification,
 }
 
 export default connect(
