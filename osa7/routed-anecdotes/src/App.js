@@ -4,7 +4,6 @@ import {
   Route,
   Link,
   Redirect,
-  withRouter,
 } from 'react-router-dom'
 
 const Menu = () => {
@@ -89,6 +88,7 @@ const CreateNew = props => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -98,9 +98,12 @@ const CreateNew = props => {
       info,
       votes: 0,
     })
+    setShouldRedirect(true)
   }
 
-  return (
+  return shouldRedirect ? (
+    <Redirect to="/" />
+  ) : (
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit}>
@@ -134,6 +137,10 @@ const CreateNew = props => {
   )
 }
 
+const Notification = ({ content }) => (
+  <div>You just added {content} to list</div>
+)
+
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -157,6 +164,8 @@ const App = () => {
   const addNew = anecdote => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(anecdote.content)
+    setTimeout(() => setNotification(''), 5000)
   }
 
   const anecdoteById = id => anecdotes.find(a => a.id === id)
@@ -175,6 +184,7 @@ const App = () => {
   return (
     <Router>
       <div>
+        {notification && <Notification content={notification} />}
         <h1>Software anecdotes</h1>
         <Menu />
         <Route
