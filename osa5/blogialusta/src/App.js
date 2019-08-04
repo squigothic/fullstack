@@ -10,24 +10,22 @@ import './index.css'
 import Togglable from './components/Togglable'
 import { useField } from './hooks/index'
 import { showNotification } from './reducers/notificationReducer'
+import {
+  initializeBlogs,
+  newBlog,
+  updateBlogLikes,
+  deleteBlog,
+} from './reducers/blogReducer'
 
 const App = props => {
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const username = useField('text')
   const password = useField('password')
   const title = useField('text')
   const url = useField('text')
   const author = useField('text')
-  const [notificationMessage, setNotificationMessage] = useState(null)
 
   const blogFormRef = React.createRef()
-
-  useEffect(() => {
-    blogService
-      .getAll()
-      .then(blogs => setBlogs(blogs.sort((a, b) => b.likes - a.likes)))
-  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
@@ -35,6 +33,7 @@ const App = props => {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
     }
+    props.initializeBlogs()
   }, [])
 
   const login = async event => {
@@ -45,14 +44,14 @@ const App = props => {
         password: password.input.value,
       })
 
-      showNotification(setNotificationMessage, `logged in as ${user.username}`)
+      props.showNotification(`logged in as ${user.username}`, 4)
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
     } catch (exception) {
       console.log('virhe: ', exception)
 
-      showNotification(setNotificationMessage, 'wrong username or password')
+      showNotification('wrong username or password', 4)
     }
   }
 
@@ -62,18 +61,13 @@ const App = props => {
   }
 
   const updateBlogLikes = async id => {
-    const response = await blogService.update(id)
-    const modifiedBlogs = blogs.filter(blog => blog.id !== id)
-    modifiedBlogs.push(response)
-    setBlogs(modifiedBlogs.sort((a, b) => b.likes - a.likes))
+    props.updateBlogLikes(id)
   }
 
   const deleteBlog = id => {
     console.log('ollaan poistamassa blogia ', id)
     if (window.confirm('Are you sure about that?')) {
-      blogService.setToken(user.token)
-      blogService.deleteBlog(id)
-      setBlogs(blogs.filter(blog => blog.id !== id))
+      props.deleteBlog(id, user)
     }
   }
 
@@ -85,10 +79,8 @@ const App = props => {
       author: author.input.value,
       url: url.input.value,
     }
-    blogService.setToken(user.token)
-    const returnedBlog = await blogService.create(newBlogObject)
     props.showNotification('created a new blog', 4)
-    setBlogs(blogs.concat(returnedBlog))
+    props.newBlog(newBlogObject, user)
     title.reset()
     author.reset()
     url.reset()
@@ -100,7 +92,7 @@ const App = props => {
         doLogin={login}
         username={username}
         password={password}
-        notificationMessage={notificationMessage}
+        notificationMessage={props.notificationMessage}
       />
     )
   }
@@ -131,15 +123,17 @@ const App = props => {
         </Togglable>
       </div>
       <div>
-        {blogs.map(blog => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            updateBlogLikes={updateBlogLikes}
-            deleteBlog={deleteBlog}
-            user={user}
-          />
-        ))}
+        {props.blogs
+          .sort((a, b) => b.likes - a.likes)
+          .map(blog => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateBlogLikes={updateBlogLikes}
+              deleteBlog={deleteBlog}
+              user={user}
+            />
+          ))}
       </div>
     </div>
   )
@@ -148,15 +142,19 @@ const App = props => {
 const mapStateToProps = state => {
   return {
     notification: state.notification,
+    blogs: state.blogs,
   }
 }
 
 const mapDispatchToProps = {
   showNotification,
+  initializeBlogs,
+  newBlog,
+  updateBlogLikes,
+  deleteBlog,
 }
 
-const ConnectedApp = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(App)
-export default ConnectedApp
