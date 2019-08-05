@@ -2,12 +2,7 @@ import React from 'react'
 import Notification from '../components/Notification'
 import '../index.css'
 
-const Login = ({
-  doLogin,
-  username,
-  password,
-  notificationMessage }) => {
-
+const Login = ({ doLogin, username, password, notificationMessage }) => {
   return (
     <div>
       <Notification message={notificationMessage} />

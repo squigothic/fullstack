@@ -1,7 +1,6 @@
 import blogService from '../services/blogs'
 
 const blogReducer = (state = [], action) => {
-  console.log('ACTION', action.data)
   switch (action.type) {
     case 'NEW_BLOG':
       return [...state, action.data]
@@ -52,7 +51,7 @@ export const updateBlogLikes = id => {
 export const deleteBlog = (id, user) => {
   return async dispatch => {
     blogService.setToken(user.token)
-    const response = await blogService.deleteBlog(id)
+    await blogService.deleteBlog(id)
     dispatch({
       type: 'DELETE_BLOG',
       data: id,
