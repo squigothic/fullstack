@@ -1,9 +1,14 @@
 import React from 'react'
 import '../index.css'
+import Notification from './Notification'
 
-const Login = ({ doLogin, username, password }) => {
+const Login = ({ notification, doLogin, username, password }) => {
+  console.log('notification: ', notification)
   return (
     <div>
+      {notification.status === true && (
+        <Notification message={notification.content} />
+      )}
       <h2>Log in to application</h2>
       <form onSubmit={doLogin}>
         <div>

@@ -1,6 +1,6 @@
 import loginService from '../services/login'
 import blogService from '../services/blogs'
-import showNotification from './notificationReducer'
+import { showNotification } from './notificationReducer'
 
 const userReducer = (state = null, action) => {
   switch (action.type) {
@@ -25,16 +25,23 @@ export const loginUser = credentials => {
         type: 'LOGIN',
         data: user,
       })
-      console.log('uuuuser: ', user)
       dispatch(showNotification(`logged in with username ${user.username}`, 4))
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
       blogService.setToken(user.token)
     } catch (exception) {
-      console.log('error: ', exception)
       dispatch({
         type: 'LOGIN_FAILURE',
         data: null,
       })
+      if (exception.message.includes('401')) {
+        dispatch(showNotification('wrong username or password', 4))
+      }
+
+      if (exception.message.includes('500')) {
+        dispatch(
+          showNotification('something might be wrong with the server', 4)
+        )
+      }
     }
   }
 }

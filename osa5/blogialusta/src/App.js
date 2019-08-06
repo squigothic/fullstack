@@ -34,25 +34,12 @@ const App = props => {
     props.initializeBlogs()
   }, [])
 
-  // useEffect(() => {
-  //   if (
-  //     props.user !== null &&
-  //     window.localStorage.getItem('loggedBlogUser') !== null
-  //   ) {
-  //     props.showNotification(
-  //       `logged in with username ${props.user.username}`,
-  //       4
-  //     )
-  //   }
-  // }, props.user)
-
   const login = async event => {
     event.preventDefault()
     await props.loginUser({
       username: username.input.value,
       password: password.input.value,
     })
-    //props.showNotification(`logged in with username ${props.user.username}`, 4)
   }
 
   const clearLocalStorage = () => {
@@ -87,16 +74,14 @@ const App = props => {
   }
 
   if (props.user === null) {
+    console.log('UUUSER: ', props.user)
     return (
       <div>
-        {props.notification.status === true && (
-          <Notification message={props.notification.content} />
-        )}
         <Login
+          notification={props.notification}
           doLogin={login}
           username={username}
           password={password}
-          notificationMessage={props.notificationMessage}
         />
       </div>
     )
