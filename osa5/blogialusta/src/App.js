@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import blogService from './services/blogs'
-import loginService from './services/login'
 import Blog from './components/Blog'
 import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
@@ -16,7 +14,7 @@ import {
   updateBlogLikes,
   deleteBlog,
 } from './reducers/blogReducer'
-import { getUser, logoutUser } from './reducers/userReducer'
+import { loginUser, logoutUser, setUser } from './reducers/userReducer'
 
 const App = props => {
   const username = useField('text')
@@ -31,27 +29,30 @@ const App = props => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      props.getUser(user)
+      props.setUser(user)
     }
     props.initializeBlogs()
   }, [])
 
+  // useEffect(() => {
+  //   if (
+  //     props.user !== null &&
+  //     window.localStorage.getItem('loggedBlogUser') !== null
+  //   ) {
+  //     props.showNotification(
+  //       `logged in with username ${props.user.username}`,
+  //       4
+  //     )
+  //   }
+  // }, props.user)
+
   const login = async event => {
     event.preventDefault()
-    console.log('lähetetään tunnareita...')
-    try {
-      const user = await loginService.login({
-        username: username.input.value,
-        password: password.input.value,
-      })
-      props.showNotification(`logged in as ${user.username}`, 4)
-      window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
-      blogService.setToken(user.token)
-      props.getUser(user)
-    } catch (exception) {
-      console.log('virhe: ', exception)
-      showNotification('wrong username or password', 4)
-    }
+    await props.loginUser({
+      username: username.input.value,
+      password: password.input.value,
+    })
+    //props.showNotification(`logged in with username ${props.user.username}`, 4)
   }
 
   const clearLocalStorage = () => {
@@ -86,14 +87,18 @@ const App = props => {
   }
 
   if (props.user === null) {
-    console.log('UUUUSERI: ', props.user)
     return (
-      <Login
-        doLogin={login}
-        username={username}
-        password={password}
-        notificationMessage={props.notificationMessage}
-      />
+      <div>
+        {props.notification.status === true && (
+          <Notification message={props.notification.content} />
+        )}
+        <Login
+          doLogin={login}
+          username={username}
+          password={password}
+          notificationMessage={props.notificationMessage}
+        />
+      </div>
     )
   }
 
@@ -153,8 +158,9 @@ const mapDispatchToProps = {
   newBlog,
   updateBlogLikes,
   deleteBlog,
-  getUser,
+  loginUser,
   logoutUser,
+  setUser,
 }
 
 export default connect(

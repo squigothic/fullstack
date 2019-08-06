@@ -8,7 +8,7 @@ const notificationReducer = (state = initialState, action) => {
     case 'SHOW_NOTIFICATION':
       return { content: action.data.content, status: action.data.status }
     case 'HIDE_NOTIFICATION':
-      return { content: action.data.content, status: action.data.status }
+      return { content: null, status: false }
     default:
       return state
   }
@@ -20,10 +20,6 @@ export const showNotification = (messageToShow, timeout) => {
       () =>
         dispatch({
           type: 'HIDE_NOTIFICATION',
-          data: {
-            content: null,
-            status: false,
-          },
         }),
       timeout * 1000
     )
