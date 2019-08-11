@@ -1,4 +1,4 @@
-import loginService from '../services/login'
+import { loginService } from '../services/users'
 import blogService from '../services/blogs'
 import { showNotification } from './notificationReducer'
 
@@ -20,7 +20,7 @@ const userReducer = (state = null, action) => {
 export const loginUser = credentials => {
   return async dispatch => {
     try {
-      const user = await loginService.login(credentials)
+      const user = await loginService(credentials)
       dispatch({
         type: 'LOGIN',
         data: user,

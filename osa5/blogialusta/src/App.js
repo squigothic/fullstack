@@ -10,6 +10,7 @@ import {
 
 import Login from './components/Login'
 import Frontpage from './components/Frontpage'
+import UserList from './components/UserList'
 
 import {
   initializeBlogs,
@@ -23,7 +24,6 @@ import { useField } from './hooks/index'
 const App = props => {
   const username = useField('text')
   const password = useField('password')
-
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
@@ -42,19 +42,28 @@ const App = props => {
     })
   }
 
+  if (!props.user) {
+    return (
+      <Login
+        notification={props.notification}
+        doLogin={login}
+        username={username}
+        password={password}
+      />
+    )
+  }
+
   return (
-    <div>
-      {props.user === null ? (
-        <Login
-          notification={props.notification}
-          doLogin={login}
-          username={username}
-          password={password}
+    <Router>
+      <div>
+        <Route
+          exact
+          path="/"
+          render={() => <Frontpage user={props.user} blogs={props.blogs} />}
         />
-      ) : (
-        <Frontpage user={props.user} blogs={props.blogs} />
-      )}
-    </div>
+        <Route path="/users" render={() => <UserList />} />
+      </div>
+    </Router>
   )
 }
 
