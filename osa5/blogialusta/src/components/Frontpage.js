@@ -8,7 +8,7 @@ import { newBlog, updateBlogLikes, deleteBlog } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
 import { logoutUser } from '../reducers/userReducer'
 import { useField } from '../hooks/index'
-import '../index.css'
+
 import Togglable from './Togglable'
 
 const Frontpage = ({
@@ -26,10 +26,7 @@ const Frontpage = ({
 
   const blogFormRef = React.createRef()
 
-  const clearLocalStorage = () => {
-    window.localStorage.removeItem('loggedBlogUser')
-    logoutUser()
-  }
+
 
   const updateLikes = async id => {
     updateBlogLikes(id)
@@ -62,15 +59,6 @@ const Frontpage = ({
       {notification.status === true && (
         <Notification message={notification.content} />
       )}
-      <div id="top">
-        <div className="title">
-          <h2>Blogs</h2>
-        </div>
-        <div id="userinfo">
-          <p>{user.username} logged in</p>
-          <button onClick={clearLocalStorage}>log out</button>
-        </div>
-      </div>
 
       <div>
         <Togglable buttonLabel="Create new blog" ref={blogFormRef}>

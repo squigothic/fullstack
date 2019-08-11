@@ -1,24 +1,18 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  withRouter,
-} from 'react-router-dom'
-
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Login from './components/Login'
 import Frontpage from './components/Frontpage'
 import UserList from './components/UserList'
-
+import Header from './components/Header'
+import SingleUser from './components/SingleUser'
 import {
   initializeBlogs,
   newBlog,
   updateBlogLikes,
   deleteBlog,
 } from './reducers/blogReducer'
-import { loginUser, logoutUser, setUser } from './reducers/userReducer'
+import { loginUser, setUser } from './reducers/userReducer'
 import { useField } from './hooks/index'
 
 const App = props => {
@@ -56,12 +50,18 @@ const App = props => {
   return (
     <Router>
       <div>
+        <Header user={props.user} />
         <Route
           exact
           path="/"
           render={() => <Frontpage user={props.user} blogs={props.blogs} />}
         />
-        <Route path="/users" render={() => <UserList />} />
+        <Route exact path="/users" render={() => <UserList />} />
+        <Route
+          exact
+          path="/users/:id"
+          render={({ match }) => <SingleUser user={match.params.id} />}
+        />
       </div>
     </Router>
   )
@@ -81,7 +81,6 @@ const mapDispatchToProps = {
   updateBlogLikes,
   deleteBlog,
   loginUser,
-  logoutUser,
   setUser,
 }
 

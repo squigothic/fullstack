@@ -3,7 +3,6 @@ import '../index.css'
 import Notification from './Notification'
 
 const Login = ({ notification, doLogin, username, password }) => {
-  console.log('notification: ', notification)
   return (
     <div>
       {notification.status === true && (
