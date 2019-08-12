@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { getAllUsers } from '../services/users'
+import React, { useEffect } from 'react'
+import { fetchUserList } from '../reducers/userListReducer'
 import User from './User'
-//import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 
-const UserList = () => {
-  const [users, setUsers] = useState([])
-
+const UserList = ({ fetchUserList, users }) => {
   useEffect(() => {
-    getAllUsers()
-      .then(users => setUsers(users))
-      .catch(error => console.log('virhe: ', error))
+    fetchUserList()
   }, [])
+
+  if (users == null) {
+    return null
+  }
 
   return (
     <div>
@@ -32,4 +32,17 @@ const UserList = () => {
   )
 }
 
-export default UserList
+const mapStateToProp = state => {
+  return {
+    users: state.userList,
+  }
+}
+
+const mapDispatchToProps = {
+  fetchUserList,
+}
+
+export default connect(
+  mapStateToProp,
+  mapDispatchToProps
+)(UserList)
