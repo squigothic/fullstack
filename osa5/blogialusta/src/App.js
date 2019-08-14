@@ -13,6 +13,7 @@ import {
   deleteBlog,
 } from './reducers/blogReducer'
 import { loginUser, setUser } from './reducers/userReducer'
+import { fetchUserList } from './reducers/userListReducer'
 import { useField } from './hooks/index'
 
 const App = props => {
@@ -26,6 +27,9 @@ const App = props => {
       props.setUser(user)
     }
     props.initializeBlogs()
+    if (props.users.length === 0) {
+      props.fetchUserList()
+    }
   }, [])
 
   const login = async event => {
@@ -60,7 +64,7 @@ const App = props => {
         <Route
           exact
           path="/users/:id"
-          render={({ match }) => <SingleUser user={match.params.id} />}
+          render={({ match }) => <SingleUser id={match.params.id} />}
         />
       </div>
     </Router>
@@ -72,6 +76,7 @@ const mapStateToProps = state => {
     notification: state.notification,
     blogs: state.blogs,
     user: state.user,
+    users: state.userList,
   }
 }
 
@@ -82,6 +87,7 @@ const mapDispatchToProps = {
   deleteBlog,
   loginUser,
   setUser,
+  fetchUserList,
 }
 
 export default connect(

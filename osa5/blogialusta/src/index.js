@@ -18,7 +18,10 @@ const reducer = combineReducers({
   userList: userListReducer,
 })
 
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
+export const store = createStore(
+  reducer,
+  composeWithDevTools(applyMiddleware(thunk))
+)
 
 ReactDOM.render(
   <Provider store={store}>
