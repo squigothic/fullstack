@@ -14,7 +14,7 @@ const SingleUser = props => {
       <h4>added blogs: </h4>
       <ul>
         {props.user.blogs.map(blog => (
-          <li>{blog.title}</li>
+          <li key={blog.id}>{blog.title}</li>
         ))}
       </ul>
     </div>
