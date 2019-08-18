@@ -6,6 +6,8 @@ import Frontpage from './components/Frontpage'
 import UserList from './components/UserList'
 import Header from './components/Header'
 import SingleUser from './components/SingleUser'
+import SingleBlog from './components/SingleBlog'
+
 import {
   initializeBlogs,
   newBlog,
@@ -65,6 +67,11 @@ const App = props => {
           exact
           path="/users/:id"
           render={({ match }) => <SingleUser id={match.params.id} />}
+        />
+        <Route
+          exact
+          path="/blogs/:id"
+          render={({ match }) => <SingleBlog id={match.params.id} />}
         />
       </div>
     </Router>

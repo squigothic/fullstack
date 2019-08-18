@@ -48,8 +48,9 @@ export const updateBlogLikes = id => {
   }
 }
 
-export const deleteBlog = (id, user) => {
-  return async dispatch => {
+export const deleteBlog = id => {
+  return async (dispatch, getState) => {
+    const user = getState().user
     blogService.setToken(user.token)
     await blogService.deleteBlog(id)
     dispatch({

@@ -4,40 +4,19 @@ import { connect } from 'react-redux'
 import Blog from './Blog'
 import NewBlog from './NewBlog'
 import Notification from './Notification'
-import { newBlog, updateBlogLikes, deleteBlog } from '../reducers/blogReducer'
+import { newBlog } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
 import { logoutUser } from '../reducers/userReducer'
 import { useField } from '../hooks/index'
 
 import Togglable from './Togglable'
 
-const Frontpage = ({
-  newBlog,
-  updateBlogLikes,
-  deleteBlog,
-  logoutUser,
-  user,
-  blogs,
-  notification,
-}) => {
+const Frontpage = ({ newBlog, deleteBlog, user, blogs, notification }) => {
   const title = useField('text')
   const url = useField('text')
   const author = useField('text')
 
   const blogFormRef = React.createRef()
-
-
-
-  const updateLikes = async id => {
-    updateBlogLikes(id)
-  }
-
-  const deleteBlogPost = id => {
-    console.log('ollaan poistamassa blogia ', id)
-    if (window.confirm('Are you sure about that?')) {
-      deleteBlog(id, user)
-    }
-  }
 
   const createNewBlog = async event => {
     event.preventDefault()
@@ -74,13 +53,7 @@ const Frontpage = ({
         {blogs
           .sort((a, b) => b.likes - a.likes)
           .map(blog => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              updateBlogLikes={updateLikes}
-              deleteBlog={deleteBlogPost}
-              user={user}
-            />
+            <Blog key={blog.id} blog={blog} />
           ))}
       </div>
     </div>
@@ -95,8 +68,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   newBlog,
-  updateBlogLikes,
-  deleteBlog,
   showNotification,
   logoutUser,
 }
