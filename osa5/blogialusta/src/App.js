@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Login from './components/Login'
 import Frontpage from './components/Frontpage'
 import UserList from './components/UserList'
-import Header from './components/Header'
+import Header from './components/Header/Header'
 import SingleUser from './components/SingleUser'
 import SingleBlog from './components/SingleBlog'
 
@@ -56,7 +56,7 @@ const App = props => {
   return (
     <Router>
       <div>
-        <Header user={props.user} />
+        <Header />
         <Route
           exact
           path="/"
