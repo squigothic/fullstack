@@ -5,9 +5,11 @@ const jwt = require('jsonwebtoken')
 
 blogsRouter.get('/', async (request, response, next) => {
   try {
-    const blogs = await Blog
-      .find({})
-      .populate('user', { username: 1, name: 1, id: 1 })
+    const blogs = await Blog.find({}).populate('user', {
+      username: 1,
+      name: 1,
+      id: 1,
+    })
     response.json(blogs)
   } catch (exception) {
     next(exception)
@@ -15,7 +17,6 @@ blogsRouter.get('/', async (request, response, next) => {
 })
 
 blogsRouter.post('/', async (request, response, next) => {
-
   const body = request.body
 
   try {
@@ -32,7 +33,7 @@ blogsRouter.post('/', async (request, response, next) => {
       author: body.author,
       url: body.url,
       likes: body.likes,
-      user: user
+      user: user,
     })
 
     if (blog.title === undefined || blog.url === undefined) {
@@ -42,7 +43,6 @@ blogsRouter.post('/', async (request, response, next) => {
     if (blog.likes === undefined) {
       blog.likes = 0
     }
-
 
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id)
@@ -56,7 +56,6 @@ blogsRouter.post('/', async (request, response, next) => {
 
 blogsRouter.delete('/delete/:id', async (request, response, next) => {
   try {
-
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
     if (!request.token || !decodedToken.id) {
@@ -70,7 +69,7 @@ blogsRouter.delete('/delete/:id', async (request, response, next) => {
     if (blogToDelete.user.toString() !== userId) {
       console.log('ei mennyt läpi!!!')
       return response.status(401).json({
-        error: 'deletion not authorized for this user'
+        error: 'deletion not authorized for this user',
       })
     }
 
@@ -86,12 +85,31 @@ blogsRouter.put('/update/:id', async (request, response, next) => {
     const blogToUpdate = await Blog.findById(request.params.id)
 
     const blog = {
-      likes: blogToUpdate.likes + 1
+      likes: blogToUpdate.likes + 1,
     }
 
-    const updatedBlog = await Blog
-      .findByIdAndUpdate(request.params.id, blog, { new: true })
-      .populate('user', { username: 1, name: 1, id: 1 })
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {
+      new: true,
+    }).populate('user', { username: 1, name: 1, id: 1 })
+    response.json(updatedBlog.toJSON())
+  } catch (exception) {
+    next(exception)
+  }
+})
+
+blogsRouter.post('/:id/comments', async (request, response, next) => {
+  const blogID = request.params.id
+  const comment = request.body.content
+  try {
+    const blogToComment = await Blog.findById(blogID)
+    const newComments = {
+      comments: blogToComment.comments.concat(comment),
+    }
+    console.log('concatenoitu: ', newComments)
+    const updatedBlog = await Blog.findByIdAndUpdate(blogID, newComments, {
+      new: true,
+    }).populate('user', { username: 1, name: 1, id: 1 })
+    console.log('palautettu blog: ', updatedBlog)
     response.json(updatedBlog.toJSON())
   } catch (exception) {
     next(exception)
