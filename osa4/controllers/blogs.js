@@ -105,11 +105,9 @@ blogsRouter.post('/:id/comments', async (request, response, next) => {
     const newComments = {
       comments: blogToComment.comments.concat(comment),
     }
-    console.log('concatenoitu: ', newComments)
     const updatedBlog = await Blog.findByIdAndUpdate(blogID, newComments, {
       new: true,
     }).populate('user', { username: 1, name: 1, id: 1 })
-    console.log('palautettu blog: ', updatedBlog)
     response.json(updatedBlog.toJSON())
   } catch (exception) {
     next(exception)
