@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
 import Blog from './Blog'
 import NewBlog from './NewBlog'
@@ -10,6 +11,11 @@ import { logoutUser } from '../reducers/userReducer'
 import { useField } from '../hooks/index'
 
 import Togglable from './Togglable'
+
+const BlogWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`
 
 const Frontpage = ({ newBlog, deleteBlog, user, blogs, notification }) => {
   const title = useField('text')
@@ -49,13 +55,13 @@ const Frontpage = ({ newBlog, deleteBlog, user, blogs, notification }) => {
           />
         </Togglable>
       </div>
-      <div>
+      <BlogWrapper>
         {blogs
           .sort((a, b) => b.likes - a.likes)
           .map(blog => (
             <Blog key={blog.id} blog={blog} />
           ))}
-      </div>
+      </BlogWrapper>
     </div>
   )
 }

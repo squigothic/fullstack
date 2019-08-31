@@ -8,18 +8,30 @@ const BlogWrapper = styled.div`
   padding: 7px 5px;
   border: 1px solid;
   background: #93bbd3;
+  flex: 1;
+  width: 32%;
+`
+const TextWrapper = styled.div`
+  width: 50%;
+`
+const BlogLink = styled(Link)`
   text-decoration: none;
 `
 
-const BlogLink = styled(Link)`
-  text-decoration: none;
+const ImageWrapper = styled.div`
+  width: 50%;
 `
 
 const Blog = ({ blog }) => {
   return (
     <BlogWrapper>
+      <ImageWrapper>
+        <img src="https://picsum.photos/300/300" alt="random content Picsum" />
+      </ImageWrapper>
       <BlogLink to={`/blogs/${blog.id}`}>
-        {blog.title} {blog.author}
+        <TextWrapper>
+          {blog.title} {blog.author}
+        </TextWrapper>
       </BlogLink>
     </BlogWrapper>
   )
