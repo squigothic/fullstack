@@ -18,7 +18,7 @@ const UserList = ({ fetchUserList, users }) => {
       <table>
         <thead>
           <tr>
-            <th />
+            <th align="left">Name</th>
             <th>Blogs created</th>
           </tr>
         </thead>

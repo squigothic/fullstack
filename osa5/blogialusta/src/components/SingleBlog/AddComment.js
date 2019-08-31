@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  margin-bottom: 20px;
+`
 
 const AddComments = ({ addComment, id }) => {
   const [formtext, setFormText] = useState('add a comment...')

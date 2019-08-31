@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Login from './components/Login'
@@ -17,6 +18,16 @@ import {
 import { loginUser, setUser } from './reducers/userReducer'
 import { fetchUserList } from './reducers/userListReducer'
 import { useField } from './hooks/index'
+
+const PageConteiner = styled.div`
+  width: 80%;
+  margin: auto;
+  border: 1px solid black;
+`
+
+const MainContentWrapper = styled.div`
+  padding: 0 10px 10px 10px;
+`
 
 const App = props => {
   const username = useField('text')
@@ -55,25 +66,27 @@ const App = props => {
 
   return (
     <Router>
-      <div>
+      <PageConteiner>
         <Header />
-        <Route
-          exact
-          path="/"
-          render={() => <Frontpage user={props.user} blogs={props.blogs} />}
-        />
-        <Route exact path="/users" render={() => <UserList />} />
-        <Route
-          exact
-          path="/users/:id"
-          render={({ match }) => <SingleUser id={match.params.id} />}
-        />
-        <Route
-          exact
-          path="/blogs/:id"
-          render={({ match }) => <SingleBlog id={match.params.id} />}
-        />
-      </div>
+        <MainContentWrapper>
+          <Route
+            exact
+            path="/"
+            render={() => <Frontpage user={props.user} blogs={props.blogs} />}
+          />
+          <Route exact path="/users" render={() => <UserList />} />
+          <Route
+            exact
+            path="/users/:id"
+            render={({ match }) => <SingleUser id={match.params.id} />}
+          />
+          <Route
+            exact
+            path="/blogs/:id"
+            render={({ match }) => <SingleBlog id={match.params.id} />}
+          />
+        </MainContentWrapper>
+      </PageConteiner>
     </Router>
   )
 }

@@ -10,11 +10,15 @@ const LogoBox = styled.div`
   text-decoration: none;
 `
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`
+
 const Logo = () => (
   <LogoBox>
-    <Link to="/">
+    <StyledLink to="/">
       <h2>Blogs</h2>
-    </Link>
+    </StyledLink>
   </LogoBox>
 )
 

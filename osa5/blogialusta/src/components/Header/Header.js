@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { logoutUser } from '../../reducers/userReducer'
 
-import Logo from './Logo'
 import UserInfo from './UserInfo'
 import HeaderButton from './HeaderButton'
 
@@ -11,9 +10,16 @@ const HeaderContainer = styled.div`
   height: 5em;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background: #81d2f7;
   margin-bottom: 15px;
   border-bottom: 1px solid black;
+  padding-left: 20px;
+`
+
+const ButtonContainer = styled.div`
+  height: 70%;
+  display: flex;
 `
 
 const Header = ({ user, logoutUser }) => {
@@ -23,6 +29,10 @@ const Header = ({ user, logoutUser }) => {
   }
 
   const buttons = [
+    {
+      site: '/',
+      title: 'Frontpage',
+    },
     {
       site: '/users/' + user.id,
       title: 'My blogs',
@@ -35,10 +45,11 @@ const Header = ({ user, logoutUser }) => {
 
   return (
     <HeaderContainer>
-      <Logo />
-      {buttons.map(button => (
-        <HeaderButton key={button.title} target={button} user={user} />
-      ))}
+      <ButtonContainer>
+        {buttons.map(button => (
+          <HeaderButton key={button.title} target={button} user={user} />
+        ))}
+      </ButtonContainer>
       <UserInfo
         username={user.username}
         clearLocalStorage={clearLocalStorage}

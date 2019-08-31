@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   margin-top: 25px;
   border: 1px solid black;
   width: 40%;
-  padding: 0 10px;
+  padding: 5px 10px;
 `
 const Header = styled.div`
   font-size: 18px;

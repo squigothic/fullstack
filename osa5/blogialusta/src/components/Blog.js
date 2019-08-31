@@ -1,22 +1,27 @@
 import React from 'react'
+import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
-const Blog = ({ blog }) => {
-  const blogStyle = {
-    marginBottom: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    backgroundColor: '#93BBD3',
-  }
+const BlogWrapper = styled.div`
+  margin-bottom: 10px;
+  padding: 7px 5px;
+  border: 1px solid;
+  background: #93bbd3;
+  text-decoration: none;
+`
 
+const BlogLink = styled(Link)`
+  text-decoration: none;
+`
+
+const Blog = ({ blog }) => {
   return (
-    <div style={blogStyle}>
-      <Link to={`/blogs/${blog.id}`}>
+    <BlogWrapper>
+      <BlogLink to={`/blogs/${blog.id}`}>
         {blog.title} {blog.author}
-      </Link>
-    </div>
+      </BlogLink>
+    </BlogWrapper>
   )
 }
 
