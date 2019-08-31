@@ -1,11 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import Comment from './Comment'
+import AddComments from './AddComment'
 
 const Wrapper = styled.div`
   margin-top: 25px;
-  border-top: 1px solid black;
-  width: 30%;
+  border: 1px solid black;
+  width: 40%;
+  padding: 0 10px;
 `
 const Header = styled.div`
   font-size: 18px;
@@ -16,14 +18,13 @@ const Title = styled.h3`
   margin-top: 10px;
 `
 
-const CommentsSection = ({ comments }) => {
-  console.log('kommentit: ', comments)
+const CommentsSection = ({ comments, addComment, id }) => {
   return (
     <Wrapper>
       <Header>
         <Title>Comments</Title>
       </Header>
-
+      <AddComments addComment={addComment} id={id} />
       {comments.length > 0
         ? comments.map(comment => (
             <Comment key={comment.id} comment={comment.content} />

@@ -1,9 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { updateBlogLikes, deleteBlog } from '../../reducers/blogReducer'
+import {
+  updateBlogLikes,
+  deleteBlog,
+  addComment,
+} from '../../reducers/blogReducer'
 import CommentsSection from './CommentsSection'
 
-const SingleBlog = ({ blog, updateBlogLikes, user, deleteBlog }) => {
+const SingleBlog = ({
+  blog,
+  updateBlogLikes,
+  user,
+  deleteBlog,
+  addComment,
+}) => {
   const deleteBlogPost = id => {
     if (window.confirm('Are you sure about that?')) {
       deleteBlog(id)
@@ -26,7 +36,11 @@ const SingleBlog = ({ blog, updateBlogLikes, user, deleteBlog }) => {
       {blog.user.id === user.id && (
         <button onClick={() => deleteBlogPost(blog.id)}>Delete</button>
       )}
-      <CommentsSection comments={blog.comments} />
+      <CommentsSection
+        comments={blog.comments}
+        addComment={addComment}
+        id={blog.id}
+      />
     </div>
   )
 }
@@ -38,7 +52,13 @@ const mapStateToProps = (state, { id }) => {
   }
 }
 
+const mapDispatchToProps = {
+  updateBlogLikes,
+  deleteBlog,
+  addComment,
+}
+
 export default connect(
   mapStateToProps,
-  { updateBlogLikes, deleteBlog }
+  mapDispatchToProps
 )(SingleBlog)
