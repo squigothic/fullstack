@@ -6,7 +6,7 @@ import Frontpage from './components/Frontpage'
 import UserList from './components/UserList'
 import Header from './components/Header/Header'
 import SingleUser from './components/SingleUser'
-import SingleBlog from './components/SingleBlog'
+import SingleBlog from './components/SingleBlog/SingleBlog'
 
 import {
   initializeBlogs,

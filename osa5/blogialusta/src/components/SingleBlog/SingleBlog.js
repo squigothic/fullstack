@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { updateBlogLikes, deleteBlog } from '../reducers/blogReducer'
+import { updateBlogLikes, deleteBlog } from '../../reducers/blogReducer'
+import CommentsSection from './CommentsSection'
 
 const SingleBlog = ({ blog, updateBlogLikes, user, deleteBlog }) => {
   const deleteBlogPost = id => {
@@ -25,6 +26,7 @@ const SingleBlog = ({ blog, updateBlogLikes, user, deleteBlog }) => {
       {blog.user.id === user.id && (
         <button onClick={() => deleteBlogPost(blog.id)}>Delete</button>
       )}
+      <CommentsSection comments={blog.comments} />
     </div>
   )
 }

@@ -37,7 +37,7 @@ const Header = ({ user, logoutUser }) => {
     <HeaderContainer>
       <Logo />
       {buttons.map(button => (
-        <HeaderButton target={button} user={user} />
+        <HeaderButton key={button.title} target={button} user={user} />
       ))}
       <UserInfo
         username={user.username}
