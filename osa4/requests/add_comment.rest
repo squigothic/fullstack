@@ -1,6 +1,6 @@
-POST http://localhost:3003/api/blogs/5d62dcf9530c4322ec2b591f/comments
+POST http://localhost:3003/api/blogs/5d6ab5fd750e6f01b755f4f5/comments
 Content-Type: application/json
 
 {
-    "content": "this is a diiiiiickk"
+    "content": "työmää on juuu"
 }

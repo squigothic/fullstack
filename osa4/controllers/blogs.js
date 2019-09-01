@@ -100,10 +100,17 @@ blogsRouter.put('/update/:id', async (request, response, next) => {
 blogsRouter.post('/:id/comments', async (request, response, next) => {
   const blogID = request.params.id
   const comment = request.body.content
+  console.log('sisalto: ', comment)
+  const commentObject = {
+    content: comment,
+    id: Buffer.from(comment + (Math.random() * 1000).toFixed(5)).toString(
+      'base64'
+    ),
+  }
   try {
     const blogToComment = await Blog.findById(blogID)
     const newComments = {
-      comments: blogToComment.comments.concat(comment),
+      comments: blogToComment.comments.concat(commentObject),
     }
     const updatedBlog = await Blog.findByIdAndUpdate(blogID, newComments, {
       new: true,
