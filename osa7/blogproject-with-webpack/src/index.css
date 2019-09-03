@@ -1,0 +1,24 @@
+.error {
+    color: red;
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .title {
+    float: left;
+    height: 2em;
+    width: 50%;
+  }
+
+  #userinfo {
+    float: right;
+  }
+
+  #top {
+    height: 3em;
+  }
+
