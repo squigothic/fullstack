@@ -9,28 +9,41 @@ const BlogWrapper = styled.div`
   border: 1px solid;
   background: #93bbd3;
   flex: 1;
-  width: 32%;
+  width: 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `
 const TextWrapper = styled.div`
-  width: 50%;
+  width: 320px;
+  padding-top: 7px;
+  color: black;
 `
 const BlogLink = styled(Link)`
   text-decoration: none;
 `
 
 const ImageWrapper = styled.div`
-  width: 50%;
+  display: flex;
+  justify-content: center;
+`
+
+const BlogTitle = styled.div`
+  font-size: 22px;
+  font-family: 'Helvetica';
 `
 
 const Blog = ({ blog }) => {
   return (
     <BlogWrapper>
       <ImageWrapper>
-        <img src="https://picsum.photos/300/300" alt="random content Picsum" />
+        <img src="https://picsum.photos/320/250" alt="random content Picsum" />
       </ImageWrapper>
       <BlogLink to={`/blogs/${blog.id}`}>
         <TextWrapper>
-          {blog.title} {blog.author}
+          <BlogTitle>{blog.title}</BlogTitle>
+          {blog.author}
         </TextWrapper>
       </BlogLink>
     </BlogWrapper>

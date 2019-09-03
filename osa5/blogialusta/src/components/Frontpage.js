@@ -17,7 +17,7 @@ const BlogWrapper = styled.div`
   flex-wrap: wrap;
 `
 
-const Frontpage = ({ newBlog, deleteBlog, user, blogs, notification }) => {
+const Frontpage = ({ newBlog, user, blogs, notification }) => {
   const title = useField('text')
   const url = useField('text')
   const author = useField('text')
