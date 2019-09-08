@@ -41,7 +41,7 @@ const Blog = ({ blog }) => {
         <img src="https://picsum.photos/320/250" alt="random content Picsum" />
       </ImageWrapper>
       <BlogLink to={`/blogs/${blog.id}`}>
-        <TextWrapper data-cy="link-to-blog">
+        <TextWrapper>
           <BlogTitle>{blog.title}</BlogTitle>
           {blog.author}
         </TextWrapper>
