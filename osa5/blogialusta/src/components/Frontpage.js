@@ -17,7 +17,7 @@ const BlogWrapper = styled.div`
   flex-wrap: wrap;
 `
 
-const Frontpage = ({ newBlog, deleteBlog, user, blogs, notification }) => {
+const Frontpage = ({ newBlog, user, blogs, notification }) => {
   const title = useField('text')
   const url = useField('text')
   const author = useField('text')
@@ -56,11 +56,13 @@ const Frontpage = ({ newBlog, deleteBlog, user, blogs, notification }) => {
         </Togglable>
       </div>
       <BlogWrapper>
-        {blogs
-          .sort((a, b) => b.likes - a.likes)
-          .map(blog => (
-            <Blog key={blog.id} blog={blog} />
-          ))}
+        {blogs.length === 0 ? (
+          <p data-cy="no-blogs">No blogs to display</p>
+        ) : (
+          blogs
+            .sort((a, b) => b.likes - a.likes)
+            .map(blog => <Blog key={blog.id} blog={blog} />)
+        )}
       </BlogWrapper>
     </div>
   )

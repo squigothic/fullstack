@@ -12,13 +12,15 @@ const Login = ({ notification, doLogin, username, password }) => {
       <form onSubmit={doLogin}>
         <div>
           username
-          <input {...username.input} />
+          <input {...username.input} data-cy="username" />
         </div>
         <div>
           password
-          <input {...password.input} />
+          <input {...password.input} data-cy="password" />
         </div>
-        <button type="submit">login</button>
+        <button type="submit" data-cy="submit">
+          login
+        </button>
       </form>
     </div>
   )

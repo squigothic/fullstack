@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
   updateBlogLikes,
@@ -14,14 +15,20 @@ const SingleBlog = ({
   deleteBlog,
   addComment,
 }) => {
+  const [redirect, setRedirect] = useState(false)
   const deleteBlogPost = id => {
     if (window.confirm('Are you sure about that?')) {
       deleteBlog(id)
+      setRedirect(true)
     }
   }
 
   if (blog === undefined) {
     return null
+  }
+
+  if (redirect) {
+    return <Redirect to="/" />
   }
 
   return (
@@ -34,7 +41,9 @@ const SingleBlog = ({
       </p>
       <p>Added by {blog.author}</p>
       {blog.user.id === user.id && (
-        <button onClick={() => deleteBlogPost(blog.id)}>Delete</button>
+        <button data-cy="delete-blog" onClick={() => deleteBlogPost(blog.id)}>
+          Delete
+        </button>
       )}
       <CommentsSection
         comments={blog.comments}

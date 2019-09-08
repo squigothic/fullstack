@@ -10,7 +10,7 @@ const UserInfoWrapper = styled.div`
 
 const UserInfo = ({ username, clearLocalStorage }) => (
   <UserInfoWrapper>
-    {username} logged in <button onClick={clearLocalStorage}>log out</button>
+    {username} logged in <button data-cy="logout-button" onClick={clearLocalStorage}>log out</button>
   </UserInfoWrapper>
 )
 
