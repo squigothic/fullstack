@@ -2,8 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 const SingleUser = props => {
-  console.log(props.id)
-  console.log('user: ', props.user)
   if (!props.user) {
     return null
   }
