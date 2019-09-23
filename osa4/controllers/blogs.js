@@ -99,7 +99,6 @@ blogsRouter.put('/update/:id', async (request, response, next) => {
 blogsRouter.post('/:id/comments', async (request, response, next) => {
   const blogID = request.params.id
   const comment = request.body.content
-  console.log('sisalto: ', comment)
   const commentObject = {
     content: comment,
     id: Buffer.from(comment + (Math.random() * 1000).toFixed(5)).toString(
