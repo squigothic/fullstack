@@ -16,7 +16,6 @@ const Authors = props => {
     return null
   }
 
-  console.log('authros: ', authors)
   return (
     <div>
       <h2>authors</h2>

@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useQuery } from '@apollo/react-hooks'
 
-const Books = (props) => {
-  if (!props.show) {
+import { ALL_BOOKS } from '../gql/queries'
+
+const Books = props => {
+  const [books, setBooks] = useState(null)
+  const getBooks = useQuery(ALL_BOOKS)
+
+  useEffect(() => {
+    if (getBooks.data) {
+      setBooks(getBooks.data.allBooks)
+    }
+  }, [getBooks])
+
+  if (!props.show || !books) {
     return null
   }
-
-  const books = []
 
   return (
     <div>
@@ -15,20 +25,16 @@ const Books = (props) => {
         <tbody>
           <tr>
             <th></th>
-            <th>
-              author
-            </th>
-            <th>
-              published
-            </th>
+            <th>author</th>
+            <th>published</th>
           </tr>
-          {books.map(a =>
+          {books.map(a => (
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author}</td>
               <td>{a.published}</td>
             </tr>
-          )}
+          ))}
         </tbody>
       </table>
     </div>
