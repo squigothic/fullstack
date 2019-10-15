@@ -108,18 +108,15 @@ const typeDefs = gql`
     allBooks(author: String, genre: String): [Book]
     allAuthors: [Author!]
   }
-  
+
   type Mutation {
     addBook(
-        title: String!
-        author: String!
-        published: Int!
-        genres: [String!]
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String!]
     ): Book
-    editAuthor(
-      name: String!
-      setBornTo: Int!
-    ): Author
+    editAuthor(name: String!, setBornTo: Int!): Author
   }
 `
 
@@ -139,9 +136,12 @@ const resolvers = {
   },
   Mutation: {
     addBook: (root, args) => {
-      const book = {...args, id: uuid() }
+      const book = { ...args, id: uuid() }
       books = books.concat(book)
-      if (!authors.includes(args.author)) {
+      console.log('etsitään listalsta ', args.author)
+      console.log('authors on tämmönen: ', authors)
+      if (!authors.map(author => author.name).includes(args.author)) {
+        console.log('authori löytyi jo? ', authors.includes(args.author))
         const author = { name: args.author, born: args.born, id: uuid() }
         authors = authors.concat(author)
       }
@@ -153,10 +153,10 @@ const resolvers = {
         return null
       }
       updatedAuthor.born = args.setBornTo
-      authors = authors.map(a => a.name === args.name ? updatedAuthor : a)
+      authors = authors.map(a => (a.name === args.name ? updatedAuthor : a))
       return updatedAuthor
-    }
-  }
+    },
+  },
 }
 
 const server = new ApolloServer({
