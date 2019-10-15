@@ -138,10 +138,7 @@ const resolvers = {
     addBook: (root, args) => {
       const book = { ...args, id: uuid() }
       books = books.concat(book)
-      console.log('etsitään listalsta ', args.author)
-      console.log('authors on tämmönen: ', authors)
       if (!authors.map(author => author.name).includes(args.author)) {
-        console.log('authori löytyi jo? ', authors.includes(args.author))
         const author = { name: args.author, born: args.born, id: uuid() }
         authors = authors.concat(author)
       }
