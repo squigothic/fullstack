@@ -5,14 +5,13 @@ import { ALL_AUTHORS } from '../gql/queries'
 
 const Authors = props => {
   const [authors, setAuthors] = useState(null)
-  const result = useQuery(ALL_AUTHORS)
+  const getAuthors = useQuery(ALL_AUTHORS)
 
   useEffect(() => {
-    if (result.data) {
-      console.log('setataan setAuthors')
-      setAuthors(result.data.allAuthors)
+    if (getAuthors.data) {
+      setAuthors(getAuthors.data.allAuthors)
     }
-  }, [result])
+  }, [getAuthors])
 
   if (!props.show || !authors) {
     return null

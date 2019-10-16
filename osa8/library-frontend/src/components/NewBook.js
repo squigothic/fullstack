@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 
 import { ADD_BOOK } from '../gql/mutations'
-import { ALL_BOOKS } from '../gql/queries'
+import { ALL_BOOKS, ALL_AUTHORS } from '../gql/queries'
 
 const NewBook = props => {
   const [title, setTitle] = useState('')
@@ -12,7 +12,7 @@ const NewBook = props => {
   const [genres, setGenres] = useState([])
 
   const [addPerson] = useMutation(ADD_BOOK, {
-    refetchQueries: [{ query: ALL_BOOKS }],
+    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
   })
 
   if (!props.show) {
