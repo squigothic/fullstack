@@ -9,6 +9,7 @@ const Books = props => {
 
   useEffect(() => {
     if (getBooks.data) {
+      console.log('stetaan AllBooks')
       setBooks(getBooks.data.allBooks)
     }
   }, [getBooks])

@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
+
 import { ALL_AUTHORS } from '../gql/queries'
 
 const Authors = props => {
   const [authors, setAuthors] = useState(null)
-  const getAuthors = useQuery(ALL_AUTHORS)
+  const result = useQuery(ALL_AUTHORS)
 
   useEffect(() => {
-    if (getAuthors.data) {
-      setAuthors(getAuthors.data.allAuthors)
+    if (result.data) {
+      console.log('setataan setAuthors')
+      setAuthors(result.data.allAuthors)
     }
-  }, [getAuthors])
+  }, [result])
 
   if (!props.show || !authors) {
     return null
