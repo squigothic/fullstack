@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
 import { ALL_AUTHORS } from '../gql/queries'
+import SetBirtYear from './SetBirthYear'
 
 const Authors = props => {
   const [authors, setAuthors] = useState(null)
@@ -19,7 +20,7 @@ const Authors = props => {
 
   return (
     <div>
-      <h2>authors</h2>
+      <h2>Authors</h2>
       <table>
         <tbody>
           <tr>
@@ -36,6 +37,7 @@ const Authors = props => {
           ))}
         </tbody>
       </table>
+      <SetBirtYear />
     </div>
   )
 }
