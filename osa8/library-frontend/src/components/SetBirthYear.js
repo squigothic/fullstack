@@ -3,8 +3,8 @@ import { useMutation } from '@apollo/react-hooks'
 import { EDIT_AUTHOR } from '../gql/mutations'
 import { ALL_AUTHORS } from '../gql/queries'
 
-const SetBirthYear = () => {
-  const [name, setName] = useState('')
+const SetBirthYear = ({ authors }) => {
+  const [name, setName] = useState(authors[0].name)
   const [born, setBorn] = useState('')
 
   const [editAuthor] = useMutation(EDIT_AUTHOR, {
@@ -19,17 +19,22 @@ const SetBirthYear = () => {
     setName('')
     setBorn('')
   }
-
+  console.log('nimi ', name)
   return (
     <div>
       <h2>Set birthyear</h2>
       <form onSubmit={submit}>
         <div>
-          name
-          <input
-            value={name}
+          <select
+            value={authors[0].name}
             onChange={({ target }) => setName(target.value)}
-          />
+          >
+            {authors.map(author => (
+              <option key={author.name} value={author.name}>
+                {author.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           born
