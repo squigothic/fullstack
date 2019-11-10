@@ -19,7 +19,7 @@ const SetBirthYear = ({ authors }) => {
     setName('')
     setBorn('')
   }
-  console.log('nimi ', name)
+
   return (
     <div>
       <h2>Set birthyear</h2>
