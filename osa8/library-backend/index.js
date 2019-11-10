@@ -96,6 +96,10 @@ const resolvers = {
     },
     allAuthors: () => Author.find({}),
     me: (root, args, context) => {
+      const currentUser = context.currentUser
+      if (!currentUser) {
+        throw new AuthenticationError("not authenticated")
+      }
       return context.currentUser
     }
   },
@@ -116,12 +120,16 @@ const resolvers = {
   },
   User: {
     favoriteGenre: (root, args, context) => {
-      return root.favoriteGenre
+      const currentUser = context.currentUser
+      if (!currentUser) {
+        throw new AuthenticationError("not authenticated")
+      }
+      return currentUser.favoriteGenre
+
     }
   },
   Mutation: {
     addBook: async (root, args, context) => {
-      console.log('context: ', context)
       const currentUser = context.currentUser
 
       if (!currentUser) {
@@ -149,7 +157,6 @@ const resolvers = {
       })
     },
     editAuthor: async (root, args, context) => {
-      console.log('giggels', context)
       const currentUser = context.currentUser
 
       if (!currentUser) {
@@ -201,7 +208,6 @@ const server = new ApolloServer({
         auth.substring(7), process.env.JWT_SECRET
       )
       const currentUser = await User.findById(decodedToken.id)
-      console.log('contextista terve, ', currentUser)
       return { currentUser }
     }
   }

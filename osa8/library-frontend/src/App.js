@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useApolloClient } from '@apollo/react-hooks'
-import { ApolloConsumer } from 'react-apollo'
 
 import Authors from './components/Authors'
 import Books from './components/Books'
@@ -45,11 +44,8 @@ const App = () => {
       </div>
 
       <Authors show={page === 'authors'} />
-      <ApolloConsumer>
-        {(client) =>
-          <Books show={page === 'books'} client={client} />
-        }
-      </ApolloConsumer>
+      <Books show={page === 'books'} client={client} />
+
 
       <NewBook show={page === 'add'} setPage={setPage} />
 

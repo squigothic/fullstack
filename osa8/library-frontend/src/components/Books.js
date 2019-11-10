@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery, useLazyQuery } from '@apollo/react-hooks'
 
 import { ALL_BOOKS } from '../gql/queries'
 import { BOOKS_BY_GENRE } from '../gql/queries'
@@ -8,7 +8,7 @@ import { BOOKS_BY_GENRE } from '../gql/queries'
 const Books = props => {
   const [books, setBooks] = useState(null)
   const getBooks = useQuery(ALL_BOOKS)
-  const [genre, setGenre] = useState(null)
+  const [getGenres, { loading, data, refetch, called }] = useLazyQuery(BOOKS_BY_GENRE)
   const [allGenres, setAllGenres] = useState(null)
 
   useEffect(() => {
@@ -23,24 +23,27 @@ const Books = props => {
   }, [getBooks])
 
   useEffect(() => {
-    console.log('clientin sisältö: ', props.client)
-    const getSelectedGenres = async () => {
-      const response = await props.client.query({
-        query: BOOKS_BY_GENRE,
-        variables: { genre: [genre] }
-      })
-      console.log('response: ', response)
-      setBooks(response.data.allBooks)
+    if (data) {
+      setBooks(data.allBooks)
     }
-    if (genre) {
-      getSelectedGenres()
-    }
-  }, [genre, setBooks, props.client])
+  }, [data, setBooks])
 
-  const clearChoice = () => {
-    setGenre(null)
-    setBooks(getBooks.data.allBooks)
+  const setGenreView = (genreToShow) => {
+    if (called) {
+      refetch({
+        variables: {
+          genre: [genreToShow]
+        }
+      })
+    }
+    getGenres({
+      variables: {
+        genre: [genreToShow]
+      }
+    })
   }
+
+  if (loading) return <p>loading...</p>
 
   if (!props.show || !books) {
     return null
@@ -66,8 +69,8 @@ const Books = props => {
           ))}
         </tbody>
       </table>
-      {allGenres.map(g => <button key={g} onClick={() => setGenre(g)}>{g}</button>)}
-      {genre && <button onClick={() => clearChoice()}>all genres</button>}
+      {allGenres.map(g => <button key={g} onClick={() => setGenreView(g)}>{g}</button>)}
+      {data && <button onClick={() => setBooks(getBooks.data.allBooks)}>all genres</button>}
     </div>
   )
 }
