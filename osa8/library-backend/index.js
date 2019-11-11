@@ -120,11 +120,7 @@ const resolvers = {
   },
   User: {
     favoriteGenre: (root, args, context) => {
-      const currentUser = context.currentUser
-      if (!currentUser) {
-        throw new AuthenticationError("not authenticated")
-      }
-      return currentUser.favoriteGenre
+      return root.favoriteGenre
 
     }
   },
