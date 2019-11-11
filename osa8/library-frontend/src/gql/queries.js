@@ -35,3 +35,13 @@ export const BOOKS_BY_GENRE = gql`
     }
   }
 `
+
+export const ME = gql`
+  {
+    me {
+      username
+      favoriteGenre
+      id
+    }
+  }
+`
