@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { useApolloClient } from '@apollo/react-hooks'
+import { useApolloClient, useSubscription } from '@apollo/react-hooks'
 
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
 import Recommendations from './components/Recommandations'
+
+import { BOOK_ADDED } from './gql/subscriptions'
 
 
 const App = () => {
@@ -23,6 +25,13 @@ const App = () => {
   })
 
   const client = useApolloClient()
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded.title
+      window.alert('Tietokantaan lisättiin kirja ', addedBook)
+    }
+  })
 
   if (!token) {
     return (
