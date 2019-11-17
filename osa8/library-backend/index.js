@@ -101,7 +101,10 @@ const resolvers = {
       }
       return Book.find({})
     },
-    allAuthors: () => Author.find({}),
+    allAuthors: async () => {
+      const author = await Author.find({}).populate('books')
+      return author
+    },
     me: (root, args, context) => {
       const currentUser = context.currentUser
       if (!currentUser) {
@@ -115,8 +118,7 @@ const resolvers = {
       return Book.find({ author: root._id })
     },
     bookCount: async root => {
-      const books = await Book.find({ author: root._id })
-      return books.length
+      return root.books.length
     },
   },
   Book: {
@@ -149,6 +151,7 @@ const resolvers = {
           throw new UserInputError(error.message)
         })
       }
+
       const book = new Book({
         title: args.title,
         published: args.published,
@@ -158,9 +161,17 @@ const resolvers = {
 
       pubsub.publish('BOOK_ADDED', { bookAdded: book })
 
-      return book.save().catch(error => {
+      const savedBook = await book.save().catch(error => {
         throw new UserInputError(error.message)
       })
+
+      console.log('savedBook id: ', savedBook._id)
+      const savedBookId = savedBook._id
+      author.books = author.books.concat(savedBookId)
+      console.log('author.books', author.books)
+      author.save()
+
+      return savedBook
     },
     editAuthor: async (root, args, context) => {
       const currentUser = context.currentUser
