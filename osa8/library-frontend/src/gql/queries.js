@@ -19,6 +19,7 @@ export const ALL_BOOKS = gql`
         name
       }
       published
+      id
     }
   }
 `
@@ -32,6 +33,7 @@ export const BOOKS_BY_GENRE = gql`
         name
       }
       published
+      id
     }
   }
 `

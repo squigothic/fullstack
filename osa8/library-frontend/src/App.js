@@ -8,6 +8,7 @@ import LoginForm from './components/LoginForm'
 import Recommendations from './components/Recommandations'
 
 import { BOOK_ADDED } from './gql/subscriptions'
+import { ALL_BOOKS } from './gql/queries'
 
 
 const App = () => {
@@ -26,10 +27,27 @@ const App = () => {
 
   const client = useApolloClient()
 
+  const updateCacheWith = (addedBook) => {
+    console.log('addedBook: ', addedBook)
+    const includedIn = (set, object) => set.map(p => p.id).includes(object.id)
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+    console.log('dataInStore: ', dataInStore)
+
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      console.log('ei löytynyt, yritetään lisätä...')
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: { allBooks: dataInStore.allBooks.concat(addedBook) }
+      })
+      console.log('välimuistin tila operaation jälkeen: ', client.readQuery({ query: ALL_BOOKS }))
+    }
+  }
+
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       const addedBook = subscriptionData.data.bookAdded.title
       window.alert('Tietokantaan lisättiin kirja ', addedBook)
+      updateCacheWith(subscriptionData.data.bookAdded)
     }
   })
 
